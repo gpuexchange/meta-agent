@@ -1,0 +1,24 @@
+{
+  "name": "meta-agent",
+  "version": "0.0.1",
+  "description": "META Enhanced Trading Agent",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gpuexchange/meta-agent.git"
+  },
+  "keywords": [
+    "gpu",
+    "exchange",
+    "crypto",
+    "mining",
+    "trading",
+    "agent"
+  ],
+  "author": "GPU Exchange <hello@gpu.exchange>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://bitbucket.org/gpuexchange/meta-agent#readme"
+}
