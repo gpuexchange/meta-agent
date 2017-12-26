@@ -1,5 +1,10 @@
 {
+  "plugins": [
+    "dynamic-import-node",
+    "transform-runtime"
+  ],
   "presets": [
-    "flow"
+    "flow",
+    "env"
   ]
 }

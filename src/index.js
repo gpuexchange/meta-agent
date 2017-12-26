@@ -1,1 +1,2 @@
-console.log('READY');
+import architect from 'architect'
+
