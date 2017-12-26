@@ -5,7 +5,8 @@
   "private": true,
   "plugin": {
     "consumes": [
-      "ui-registry"
+      "ui-registry",
+      "store"
     ]
   }
 }

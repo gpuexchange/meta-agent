@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest src/ --no-cache",
-    "build": "babel src/ -d lib/",
+    "build": "babel src/ -d lib/ --copy-files",
     "prepublish": "npm run build",
     "start": "babel-node src/index.js"
   },
