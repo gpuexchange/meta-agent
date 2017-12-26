@@ -37,19 +37,7 @@ export default class Registry {
   }
 
   autoSetup (imports, register) {
-    let pluginLoader = imports['plugin-loader']
     this.store = imports.store
-
-    let options = []
-    // Load and prepare modules
-    for (var importName in imports) {
-      if (importName.startsWith(this.modulePrefix)) {
-        let subModule = imports[importName]
-        subModule(options, {
-          registry: this,
-        }, register)
-      }
-    }
 
     // Only expose the top level registry to the application
     return register(

@@ -63,3 +63,6 @@ typings/
 # Compiled source
 /lib/
 !/lib/.gitkeep
+
+# Config
+/config.json
