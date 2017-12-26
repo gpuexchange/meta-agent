@@ -1,3 +1,7 @@
+/**
+ * @property store
+ * @property modulePrefix: string
+ */
 export default class Registry {
 
   /**
@@ -18,7 +22,7 @@ export default class Registry {
   }
 
   setReadPermissions (readScopes: Array<string>): void {
-
+    this.readScopes = readScopes
   }
 
   /**
@@ -29,11 +33,12 @@ export default class Registry {
    * @param writeScopes
    */
   setWritePermissions (writeScopes: Array<string>): void {
-
+    this.writeScopes = writeScopes
   }
 
-  autoRegister (imports, register) {
-    const store = imports.store
+  autoSetup (imports, register) {
+    let pluginLoader = imports['plugin-loader']
+    this.store = imports.store
 
     let options = []
     // Load and prepare modules
@@ -46,10 +51,10 @@ export default class Registry {
       }
     }
 
-    // Only expose the top level registry
+    // Only expose the top level registry to the application
     return register(
       null, {
-        [this.modulePrefix + 'register']: register,
+        [this.modulePrefix + 'registry']: this,
       },
     )
   }

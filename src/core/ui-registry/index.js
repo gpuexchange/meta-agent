@@ -1,6 +1,6 @@
 import Registry from '../../common/Registry'
 
-export default (options, imports, register) => {
+module.exports = function setup (options, imports, register) {
 
   const uiRegistry = new Registry(
     'ui-',
@@ -8,5 +8,5 @@ export default (options, imports, register) => {
     [],
   )
 
-  uiRegistry.autoRegister(imports, register)
+  uiRegistry.autoSetup(imports, register)
 }

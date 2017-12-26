@@ -2,7 +2,7 @@ import Registry from './Registry'
 
 describe('Registry', () => {
 
-  describe('::autoRegister', () => {
+  describe('::autoSetup', () => {
     it('should only load modules with the specified prefix', () => {
       let registry = new Registry('prefix-')
 
@@ -16,7 +16,7 @@ describe('Registry', () => {
       }
 
       let fakeRegister = jest.fn()
-      registry.autoRegister(testImports, fakeRegister)
+      registry.autoSetup(testImports, fakeRegister)
 
       expect(legitSetup.mock.calls.length).toBe(1)
       expect(illegalSetup.mock.calls.length).toBe(0)
@@ -27,7 +27,7 @@ describe('Registry', () => {
       let registry = new Registry('prefix-')
       let submodule = jest.fn()
 
-      registry.autoRegister({
+      registry.autoSetup({
         'prefix-module': submodule,
       }, jest.fn())
 

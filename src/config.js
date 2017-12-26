@@ -1,3 +1,4 @@
-export default [
-  './modules/ui-registry',
+module.exports = [
+  './core/store',
+  './core/ui-registry',
 ]
