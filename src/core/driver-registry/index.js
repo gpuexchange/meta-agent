@@ -1,5 +1,12 @@
+import Registry from '../../common/Registry'
+
 module.exports = function setup (options, imports, register) {
-  register(null, {
-    'driver-registry': {},
-  })
+
+  const registry = new Registry(
+    'driver-',
+    [],
+    [],
+  )
+
+  registry.autoSetup(imports, register)
 }

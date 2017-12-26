@@ -1,18 +1,19 @@
 import { createStore } from 'redux'
 import objectPath from 'object-path'
 
-let store = createStore(
-  (state = {}, action) => {
-    switch (action.type) {
-      case 'SET':
-        return objectPath.set(state, action.path, action.value)
-      default:
-        return state
-    }
-  },
-)
-
 module.exports = function setup (options, imports, register) {
+
+  let store = createStore(
+    (state = {}, action) => {
+      switch (action.type) {
+        case 'SET':
+          objectPath.set(state, action.path, action.value)
+          return state
+        default:
+          return state
+      }
+    },
+  )
 
   register(null, {
     store: {
@@ -22,6 +23,8 @@ module.exports = function setup (options, imports, register) {
           path: path,
           value: value,
         })
+
+        return value
       },
       get: (path, defaultValue = null) => {
         if (typeof path == 'string') {
@@ -30,7 +33,16 @@ module.exports = function setup (options, imports, register) {
           return store.getState()
         }
       },
-      subscribe: callback => store.subscribe(callback),
+
+      subscribe: (callback, path) => store.subscribe(
+        () => {
+          if (typeof path == 'string') {
+            callback(objectPath.get(store.getState(), path))
+          } else {
+            callback(store.getState())
+          }
+        },
+      ),
     },
   })
 }

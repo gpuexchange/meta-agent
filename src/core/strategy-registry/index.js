@@ -1,5 +1,12 @@
+import Registry from '../../common/Registry'
+
 module.exports = function setup (options, imports, register) {
-  register(null, {
-    'strategy-registry': null,
-  })
+
+  const registry = new Registry(
+    'strategy-',
+    [],
+    [],
+  )
+
+  registry.autoSetup(imports, register)
 }

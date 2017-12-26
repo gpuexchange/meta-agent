@@ -2,11 +2,11 @@ import Registry from '../../common/Registry'
 
 module.exports = function setup (options, imports, register) {
 
-  const uiRegistry = new Registry(
+  const registry = new Registry(
     'ui-',
     [],
     [],
   )
 
-  uiRegistry.autoSetup(imports, register)
+  registry.autoSetup(imports, register)
 }
