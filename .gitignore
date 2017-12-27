@@ -66,3 +66,7 @@ typings/
 
 # Config
 /config.json
+
+# Miners
+/miners
+!/miners/random.sh

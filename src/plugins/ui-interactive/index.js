@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import electron, { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import url from 'url'
 
@@ -42,10 +42,24 @@ class InteractiveUIModule extends MetaModule {
     let store = this.store
     console.log('Store is ', store)
 
-    ipcMain.on('store-ping', (event, args) => {
-      event.sender.send('store-content', store.get())
+    let renderer
+
+    ipcMain.on('store-ping', (event) => {
+      renderer = event.sender // Keep track of the receiving end
+      event.sender.send('store-state', store.get())
     })
-    // Send initial states from store service
+
+    ipcMain.on('store-dispatch', (event, action) => {
+      console.log('Received ', action)
+      // Forward the UI store action
+      store.dispatch(action)
+    })
+
+    store.subscribe((state) => {
+      if (renderer) {
+        renderer.send('store-state', state)
+      }
+    })
 
     return this.window
   }

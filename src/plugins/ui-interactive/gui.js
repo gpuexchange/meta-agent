@@ -1,9 +1,11 @@
-const ipcRenderer = require('electron').ipcRenderer
+import React from 'react'
+import { render } from 'react-dom'
 
-console.log('This is the GUI')
+import renderStore from './data/rendererStore'
+import App from './components/App'
 
-ipcRenderer.send('store-ping')
-
-ipcRenderer.on('store-content', (event, args) => {
-  console.log('Store content is ', args)
-})
+let count = 1
+renderStore.subscribe(
+  () => render(<App store={renderStore} count={count}/>,
+    document.getElementById('app')),
+)

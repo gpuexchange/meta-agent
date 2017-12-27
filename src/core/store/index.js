@@ -42,20 +42,10 @@ class StoreModule extends MetaModule {
           }
         },
 
+        dispatch: (action) => store.dispatch(action),
         subscribe: (callback, path) => store.subscribe(
           () => {
-            if (typeof path == 'string') {
-              let currentValue = objectPath.get(store.getState(), path)
-              // Only notify subscribers if there was a change in value
-              if (!lastValues.hasOwnProperty(path) ||
-                _.isEqualWith(lastValues[path], currentValue)) {
-                lastValues[path] = currentValue
-                callback(currentValue)
-              }
-
-            } else {
-              callback(store.getState())
-            }
+            callback(store.getState())
           },
         ),
       },
