@@ -1,12 +1,12 @@
-import Registry from '../../common/Registry'
+import { RegistryModule } from '../../common/RegistryModule'
+import { moduleWrapper } from '../../common/MetaModule'
 
-module.exports = function setup (options, imports, register) {
-
-  const registry = new Registry(
-    'ui-',
-    [],
-    [],
-  )
-
-  registry.autoSetup(imports, register)
+class DriverRegistry extends RegistryModule {
+  setup (options, imports) {
+    return super.setup({
+      modulePrefix: 'ui-',
+    }, imports)
+  }
 }
+
+module.exports = moduleWrapper(DriverRegistry)

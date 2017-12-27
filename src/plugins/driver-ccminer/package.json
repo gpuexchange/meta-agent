@@ -1,14 +1,14 @@
 {
-  "name": "driver-registry",
+  "name": "driver-ccminer",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
   "plugin": {
     "consumes": [
-      "store"
+      "driver-registry"
     ],
     "provides": [
-      "driver-registry"
+      "driver-ccminer"
     ]
   }
 }
