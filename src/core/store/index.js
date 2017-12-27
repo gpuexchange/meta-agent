@@ -1,6 +1,7 @@
 import { createStore } from 'redux'
 import objectPath from 'object-path'
 import { moduleWrapper, MetaModule } from '../../common/MetaModule'
+import _ from 'lodash'
 
 class StoreModule extends MetaModule {
 
@@ -19,6 +20,8 @@ class StoreModule extends MetaModule {
         }
       },
     )
+
+    let lastValues = {}
 
     return {
       store: {
@@ -42,7 +45,14 @@ class StoreModule extends MetaModule {
         subscribe: (callback, path) => store.subscribe(
           () => {
             if (typeof path == 'string') {
-              callback(objectPath.get(store.getState(), path))
+              let currentValue = objectPath.get(store.getState(), path)
+              // Only notify subscribers if there was a change in value
+              if (!lastValues.hasOwnProperty(path) ||
+                _.isEqualWith(lastValues[path], currentValue)) {
+                lastValues[path] = currentValue
+                callback(currentValue)
+              }
+
             } else {
               callback(store.getState())
             }

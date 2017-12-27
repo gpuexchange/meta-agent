@@ -3,37 +3,41 @@ import { MetaModule } from './MetaModule'
 export class RegistryModule extends MetaModule {
 
   /**
-   * Set write scopes.
+   * Set a config/session value
    *
-   * The read scopes are specified by the object path that modules under this registry will receive notification for
-   *
-   * @param readScopes
+   * @param path
+   * @param value
    */
-  setReadPermissions (readScopes: Array<string>): void {
-    this.readScopes = readScopes
+  set (path: string, value) {
+    this.store.set(path, value)
   }
 
   /**
-   * Set the write scopes.
-   *
-   * The write scopes are specified by events that this registry's module will accept
-   *
-   * @param writeScopes
+   * Get a config/session value
+   * @param path
+   * @param defaultValue
    */
-  setWritePermissions (writeScopes: Array<string>): void {
-    this.writeScopes = writeScopes
+  get (path: string, defaultValue = null) {
+    return this.store.get(path, defaultValue)
   }
 
   async setup (options, imports): Promise<Object> {
     let {modulePrefix, readScopes = [], writeScopes = []} = options
 
     this.store = imports.store
+    this.subModules = []
     this.modulePrefix = modulePrefix
-    this.setReadPermissions(readScopes)
 
-    this.setWritePermissions(writeScopes)
     return {
       [modulePrefix + 'registry']: this,
     }
+  }
+
+  getStore () {
+    return this.store
+  }
+
+  registerDependency (subModule) {
+    this.subModules.push(subModule)
   }
 }

@@ -1,3 +1,5 @@
+require('babel-register')
+
 import architect from 'architect'
 import path from 'path'
 
@@ -10,7 +12,8 @@ architect.createApp(config, (err, app) => {
     throw err
   }
 
-  //console.log(app.services.store.set('hello.world', 'australia'))
-  //console.log('App ready')
+  console.log(app.services.store.set('hello.world', 'australia'))
+  console.log('App ready')
+  app.services['ui-registry'].launch()
 })
 

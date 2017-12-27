@@ -26,6 +26,7 @@
   "homepage": "https://bitbucket.org/gpuexchange/meta-agent#readme",
   "devDependencies": {
     "babel-plugin-dynamic-import-node": "^1.2.0",
+    "electron": "^1.7.10",
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -33,14 +34,18 @@
     "eslint-plugin-react": "^7.4.0"
   },
   "dependencies": {
+    "@blueprintjs/core": "^1.35.0",
     "architect": "^0.1.13",
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "eslint-config-airbnb-flow": "^1.0.2",
     "flow-bin": "^0.61.0",
     "jest": "^22.0.4",
+    "lodash": "^4.17.4",
     "object-path": "^0.11.4",
+    "react": "^16.2.0",
     "redux": "^3.7.2"
   },
   "jest": {

@@ -7,6 +7,11 @@ class DriverRegistry extends RegistryModule {
       modulePrefix: 'ui-',
     }, imports)
   }
+
+  launch () {
+    console.log('Launching UIs')
+    this.subModules.forEach(module => module.launch())
+  }
 }
 
 module.exports = moduleWrapper(DriverRegistry)

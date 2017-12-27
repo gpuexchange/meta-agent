@@ -1,12 +1,14 @@
 {
-  "name": "ui-logger",
+  "name": "ui-interactive",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
   "plugin": {
     "consumes": [
-      "ui-registry",
-      "store"
+      "ui-registry"
+    ],
+    "provides": [
+      "ui-interactive"
     ]
   }
 }
