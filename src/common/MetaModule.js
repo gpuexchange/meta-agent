@@ -1,10 +1,19 @@
+import { debug } from 'util'
+
 export class MetaModule {
 
   constructor (options, imports, register) {
+    this.printDebug('Initialising')
     this.setup(options, imports).then(
-      exports => register(null, exports),
+      exports => {
+        this.printDebug('Ready', 'green')
+        register(null, exports)
+      },
     ).catch(
-      error => register(error),
+      error => {
+        this.printDebug('Initialisation failed', 'red')
+        register(error)
+      },
     )
   }
 
@@ -16,6 +25,10 @@ export class MetaModule {
    */
   async setup (options, imports) {
     return {}
+  }
+
+  printDebug (message, color = 'white') {
+    debug('[' + this.constructor.name + '] ' + message)
   }
 }
 

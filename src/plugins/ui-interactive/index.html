@@ -12,9 +12,25 @@
     }
 
     body {
-        margin: 0
+        -ms-overflow-style: scrollbar;
+        -webkit-app-region: drag;
     }
+
+    /* https://github.com/electron/electron/issues/2538 */
+    :not(input):not(textarea),
+    :not(input):not(textarea)::after,
+    :not(input):not(textarea)::before {
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: default;
+    }
+
+    input, button, textarea, :focus {
+        outline: none;
+    }
+
     </style>
+    <link rel="stylesheet" href="../../../node_modules/semantic-ui-css/semantic.min.css">
     <script src="bootstrap.js" defer></script>
 </head>
 <body>

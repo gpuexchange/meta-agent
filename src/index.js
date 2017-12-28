@@ -2,6 +2,7 @@ require('babel-register')
 
 import architect from 'architect'
 import path from 'path'
+import { debug } from 'util'
 
 let configPath = path.join(__dirname, 'config.js')
 let config = architect.loadConfig(configPath)
@@ -12,8 +13,7 @@ architect.createApp(config, (err, app) => {
     throw err
   }
 
-  console.log(app.services.store.set('hello.world', 'australia'))
-  console.log('App ready')
+  debug('Good news! All services have been loaded.')
   app.services['ui-registry'].launch()
 })
 

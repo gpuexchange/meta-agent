@@ -19,7 +19,14 @@ class InteractiveUIModule extends MetaModule {
 
   createWindow () {
     // Create the browser window.
-    this.window = new BrowserWindow({width: 800, height: 600})
+    this.window = new BrowserWindow({
+      width: 800,
+      height: 600,
+      minWidth: 600,
+      minHeight: 400,
+      //frame: false,
+      icon: path.join(__dirname, 'assets/icons/mineral/256x256.png'),
+    })
 
     // and load the index.html of the app.
     this.window.loadURL(url.format({
@@ -39,10 +46,7 @@ class InteractiveUIModule extends MetaModule {
       this.window = null
     })
 
-    let store = this.store
-    console.log('Store is ', store)
-
-    let renderer
+    let store = this.store, renderer
 
     ipcMain.on('store-ping', (event) => {
       renderer = event.sender // Keep track of the receiving end
@@ -50,14 +54,14 @@ class InteractiveUIModule extends MetaModule {
     })
 
     ipcMain.on('store-dispatch', (event, action) => {
-      console.log('Received ', action)
       // Forward the UI store action
+      renderer = event.sender
       store.dispatch(action)
     })
 
     store.subscribe((state) => {
-      if (renderer) {
-        renderer.send('store-state', state)
+      if (this.window) {
+        this.window.webContents.send('store-state', state)
       }
     })
 
@@ -67,7 +71,8 @@ class InteractiveUIModule extends MetaModule {
   async launch () {
 
     try {
-      console.log('Rendering interactive UI')
+
+      this.printDebug('Rendering interactive UI')
 
       app.on('ready', () => this.createWindow())
       app.on('window-all-closed', () => {
@@ -87,7 +92,7 @@ class InteractiveUIModule extends MetaModule {
       })
 
     } catch (err) {
-      console.log(err)
+      this.printDebug(err)
     }
 
   }

@@ -39,5 +39,6 @@ export class RegistryModule extends MetaModule {
 
   registerDependency (subModule) {
     this.subModules.push(subModule)
+    this.printDebug('Loaded registry dependency')
   }
 }

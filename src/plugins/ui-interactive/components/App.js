@@ -1,18 +1,40 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import { Tab } from 'semantic-ui-react'
+import { DebugTab } from './tabs/DebugTab'
+import { AlgorithmsTab } from './tabs/AlgorithmsTab'
+import { Provider } from 'react-redux'
+import { MinersTab } from './tabs/MinersTab'
+import { CoinsTab } from './tabs/CoinsTab'
 
 export default class App extends Component {
-  render () {
-    return <div>
-      <p>This is the app</p>
-      <p>Storage content: {JSON.stringify(this.props.store.getState())}</p>
-      <p>Refresh count: {this.props.count}</p>
 
-      <input onKeyUp={(event) => this.props.store.dispatch({
-        type: 'SET',
-        path: 'session.test',
-        value: event.target.value,
-      })}/>
-      <input/>
-    </div>
+  render () {
+    let panes = [
+      {
+        menuItem: 'Miners',
+        render: () => <Tab.Pane><MinersTab/></Tab.Pane>,
+      },
+      {
+        menuItem: 'Coins & Pools',
+        render: () => <Tab.Pane><CoinsTab/></Tab.Pane>,
+      }, {
+        menuItem: 'Algorithms',
+        render: () => <Tab.Pane><AlgorithmsTab/></Tab.Pane>,
+      },
+      {
+        menuItem: 'Debug',
+        render: () => <Tab.Pane><DebugTab/></Tab.Pane>,
+      },
+    ]
+
+    return <Provider store={this.props.store}>
+      <Tab panes={panes}/>
+    </Provider>
   }
+}
+
+App.contextTypes = {
+  store: PropTypes.object,
 }

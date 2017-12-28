@@ -9,7 +9,7 @@ class DriverRegistry extends RegistryModule {
   }
 
   launch () {
-    console.log('Launching UIs')
+    this.printDebug('Launching UIs')
     this.subModules.forEach(module => module.launch())
   }
 }
