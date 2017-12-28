@@ -58,13 +58,17 @@ export class CoinsTab extends Component {
   }
 
   render () {
-    let hardware = objectPath.get(this.context.store.getState(),
+    let storeState = this.context.store.getState()
+    let hardware = objectPath.get(storeState,
       'session.gpu_exchange.interactive.previewHardware',
       '1080ti',
     )
 
-    let exchangeRate = objectPath.get(this.context.store.getState(),
-      'session.gpu_exchange.interactive.previewExchangeRate',
+    let exchangeRate = objectPath.coalesce(storeState,
+      [
+        'session.gpu_exchange.interactive.previewExchangeRate',
+        'session.gpu_exchange.btcExchangeRates.USD',
+      ],
       0,
     )
 
@@ -123,7 +127,7 @@ export class CoinsTab extends Component {
     ]
 
     let rows = objectPath.get(this.context.store.getState(),
-      'session.gpu_exchange.pricefeed', []).map(
+      'session.gpu_exchange.coinData', []).map(
       coinData => {
         let algorithmCode = CoinsTab.getAlgorithmCode(coinData.algorithm)
         console.log(hardwareHashRates, hardware, algorithmCode)
@@ -137,7 +141,11 @@ export class CoinsTab extends Component {
           coinData.convertedEarningPerHash * 3600 * 24
         let dailyFiatEarning = dailyBtcEarning * exchangeRate
         return Object.assign({}, coinData,
-          {hardwareHashRate, dailyBtcEarning, dailyFiatEarning})
+          {
+            hardwareHashRate,
+            dailyBtcEarning: parseFloat(dailyBtcEarning.toPrecision(4)),
+            dailyFiatEarning: parseFloat(dailyFiatEarning.toPrecision(2)),
+          })
       },
     ).sort((a, b) => {
       if (a.dailyBtcEarning > b.dailyBtcEarning) {
@@ -160,6 +168,7 @@ export class CoinsTab extends Component {
         />
 
         <Divider/>
+        <p>Data by <em>WhatToMine.com</em> and <em>CryptoCompare.com</em>.</p>
 
         <Table.Provider
           className="pure-table pure-table-striped"
