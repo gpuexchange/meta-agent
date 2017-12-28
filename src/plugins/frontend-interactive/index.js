@@ -1,6 +1,7 @@
 import electron, { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import url from 'url'
+import { debug } from 'util'
 
 import { MetaModule, moduleWrapper } from '../../common/MetaModule'
 
@@ -24,8 +25,15 @@ class InteractiveFrontendModule extends MetaModule {
       height: 600,
       minWidth: 600,
       minHeight: 400,
-      //frame: false,
-      icon: path.join(__dirname, 'assets/icons/mineral/256x256.png'),
+      frame: false,
+      icon: path.join(__dirname,
+        process.platform !== 'darwin'
+          ? 'assets/icons/mineral/256x256.png'
+          : 'assets/icons/mineral/mineral.icns',
+      ),
+      webPreferences: {
+        //devTools: false,
+      },
     })
 
     // and load the index.html of the app.
@@ -36,13 +44,14 @@ class InteractiveFrontendModule extends MetaModule {
     }))
 
     // Open the DevTools.
-    this.window.webContents.openDevTools()
+    //this.window.webContents.openDevTools()
 
     // Emitted when the this.windowdow is closed.
     this.window.on('closed', () => {
       // Dereference the this.windowdow object, usually you would store this.windowdows
       // in an array if your app supports multi this.windowdows, this is the time
       // when you should delete the corresponding element.
+      debug('Remove window')
       this.window = null
     })
 
@@ -57,6 +66,34 @@ class InteractiveFrontendModule extends MetaModule {
       // Forward the UI store action
       renderer = event.sender
       store.dispatch(action)
+    })
+
+    ipcMain.on('window', (event, action) => {
+      let window = this.window
+
+      if (!window) {
+        return
+      }
+
+      debug('Received window action ' + action)
+      switch (action) {
+        case 'close':
+          store.set('session.interactive.isMaximized', false)
+          this.window = null
+          window.close() // Walkaround to avoid the leak when destroying window
+          break
+        case 'maximize':
+          store.set('session.interactive.isMaximized', true)
+          window.maximize()
+          break
+        case 'restore':
+          store.set('session.interactive.isMaximized', false)
+          window.unmaximize()
+          break
+        case 'minimize':
+          window.minimize()
+          break
+      }
     })
 
     store.subscribe((state) => {
@@ -81,6 +118,10 @@ class InteractiveFrontendModule extends MetaModule {
         if (process.platform !== 'darwin') {
           app.quit()
         }
+
+        // HOWEVER, We're dealing with a strange leak. So let's kill the app
+        // when all windows have been closed
+        app.quit()
       })
 
       app.on('activate', () => {
