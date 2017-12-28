@@ -1,19 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import JSONTree from 'react-json-tree'
 import { Button, Header, Segment, Divider } from 'semantic-ui-react'
+import { ScrollBox } from 'react-scroll-box'
 
 export class DebugTab extends Component {
   render () {
     return <Segment padded>
-      <div>
-        <Header as='h1'>Storage content</Header>
-        <code>{JSON.stringify(this.context.store.getState(), null,
-          2)}</code>
-      </div>
-
-      <Divider horizontal></Divider>
-
       <div>
 
         <Button primary onClick={(event) => {
@@ -30,6 +24,15 @@ export class DebugTab extends Component {
         }}>Save to config.json
         </Button>
 
+      </div>
+
+      <Divider horizontal></Divider>
+
+      <div>
+        <Header as='h1'>Storage content</Header>
+        <div style={{overflow: 'auto', height: '300px'}}>
+          <JSONTree data={this.context.store.getState()} invertTheme/>
+        </div>
       </div>
 
     </Segment>

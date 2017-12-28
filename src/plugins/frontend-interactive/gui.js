@@ -1,10 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-
-import renderStore from './data/rendererStore'
+import rendererStore from './data/rendererStore'
 import App from './components/App'
 
-renderStore.subscribe(
-  () => render(<App store={renderStore}/>,
-    document.getElementById('app')),
+rendererStore.subscribe(
+  () => {
+
+    render(<App store={rendererStore}/>,
+      document.getElementById('app'))
+  },
 )

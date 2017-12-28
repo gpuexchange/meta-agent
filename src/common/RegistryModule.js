@@ -37,6 +37,13 @@ export class RegistryModule extends MetaModule {
     return this.store
   }
 
+  /**
+   * Register a module that depends on this registry.
+   *
+   * This method is optionally called from the sub module's constructor or setup
+   * method.
+   * @param subModule
+   */
   registerDependency (subModule) {
     this.subModules.push(subModule)
     this.printDebug('Loaded registry dependency ' + subModule.constructor.name)

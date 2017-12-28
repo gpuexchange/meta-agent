@@ -11,10 +11,11 @@ class GXPriceFeedModule extends MetaModule {
   }
 
   async launch (): Promise {
-    this.printDebug('Loading coin data from WTM every 15 seconds')
+    this.printDebug('Loading coin data from WTM every minute')
     let store = this.imports['frontend-registry'].getStore()
 
     let getJsonPromisified = promisify(getJson)
+
     let fetch = async () => {
 
       this.printDebug('Fetching coin price')
@@ -23,15 +24,15 @@ class GXPriceFeedModule extends MetaModule {
         let coinsJson = await getJsonPromisified(
           'https://whattomine.com/coins.json',
         )
+
         store.set('session.coins', coinsJson)
-      }
-      catch (err) {
+      } catch (err) {
         this.printDebug('ERROR: ' + err.message)
       }
 
     }
 
-    setInterval(fetch, 15000)
+    setInterval(fetch, 60000)
     fetch() // Initial fetch
   }
 }
