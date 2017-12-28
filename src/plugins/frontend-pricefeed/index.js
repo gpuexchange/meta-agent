@@ -21,11 +21,37 @@ class GXPriceFeedModule extends MetaModule {
       this.printDebug('Fetching coin price')
 
       try {
-        let coinsJson = await getJsonPromisified(
-          'https://whattomine.com/coins.json',
-        )
 
-        store.set('session.coins', coinsJson)
+        let coins = (await getJsonPromisified(
+          'https://whattomine.com/coins.json',
+        )).coins
+
+        let processedCoins = Object.keys(coins).map(
+          coinName => {
+            let coinData = coins[coinName]
+
+            let earningPerHash = coinData['block_reward'] /
+              parseFloat(coinData['block_time']) / coinData['nethash']
+
+            // Earning in a base currency, such as BTC
+            let convertedEarningPerHash = earningPerHash *
+              coinData['exchange_rate']
+            let baseCurrency = coinData['exchange_rate_curr']
+
+            let algorithm = coinData['algorithm']
+            let tag = coinData['tag']
+
+            return Object.assign({
+              coinName,
+              tag,
+              algorithm,
+              earningPerHash,
+              convertedEarningPerHash,
+              exchangeCurrency: baseCurrency,
+            }, coinData)
+          },
+        )
+        store.set('session.gpu_exchange.pricefeed', processedCoins)
       } catch (err) {
         this.printDebug('ERROR: ' + err.message)
       }

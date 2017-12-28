@@ -7,7 +7,7 @@ import { Button, Card, Image } from 'semantic-ui-react'
 export class MinerStatus extends Component {
   render () {
     let miner = this.props.miner
-    return <Card color='green'>
+    return <Card color='green' key={miner.id}>
       <Card.Content>
         <Image floated='right' size='mini'
                src='./assets/pick.svg'/>
@@ -20,12 +20,12 @@ export class MinerStatus extends Component {
         <Card.Description>
           <strong>Last update</strong>: 1 seconds ago
         </Card.Description>
-  </Card.Content>
-    <Card.Content extra>
-      <div className='ui two buttons'>
-        <Button basic color='green'>Start</Button>
-        <Button basic color='red'>Stop</Button>
-      </div>
+      </Card.Content>
+      <Card.Content extra>
+        <div className='ui two buttons'>
+          <Button basic color='green'>Start</Button>
+          <Button basic color='red'>Stop</Button>
+        </div>
       </Card.Content>
     </Card>
   }
@@ -35,7 +35,8 @@ export class MinersTab extends Component {
 
   getMiners () {
     return objectPath.get(this.context.store.getState(), 'session.miners',
-      [1, 2, 3])
+      ['placeholder_please_remove'],
+    )
   }
 
   render () {

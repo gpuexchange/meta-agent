@@ -30,7 +30,6 @@ export class AlgorithmsTab extends Component {
   render (props) {
     return <div>
       {this.getAlgorithmTable()}
-
     </div>
   }
 }

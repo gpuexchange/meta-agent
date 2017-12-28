@@ -25,7 +25,6 @@ class InteractiveFrontendModule extends MetaModule {
       height: 600,
       minWidth: 600,
       minHeight: 400,
-      frame: false,
       icon: path.join(__dirname,
         process.platform !== 'darwin'
           ? 'assets/icons/mineral/256x256.png'
@@ -66,34 +65,6 @@ class InteractiveFrontendModule extends MetaModule {
       // Forward the UI store action
       renderer = event.sender
       store.dispatch(action)
-    })
-
-    ipcMain.on('window', (event, action) => {
-      let window = this.window
-
-      if (!window) {
-        return
-      }
-
-      debug('Received window action ' + action)
-      switch (action) {
-        case 'close':
-          store.set('session.interactive.isMaximized', false)
-          this.window = null
-          window.close() // Walkaround to avoid the leak when destroying window
-          break
-        case 'maximize':
-          store.set('session.interactive.isMaximized', true)
-          window.maximize()
-          break
-        case 'restore':
-          store.set('session.interactive.isMaximized', false)
-          window.unmaximize()
-          break
-        case 'minimize':
-          window.minimize()
-          break
-      }
     })
 
     store.subscribe((state) => {
