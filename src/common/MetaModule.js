@@ -24,7 +24,12 @@ export class MetaModule {
    * @return {Promise<Object>}
    */
   async setup (options, imports) {
+    this.imports = imports
     return {}
+  }
+
+  async launch () {
+    // To be implemented at subclasses
   }
 
   printDebug (message, color = 'white') {
