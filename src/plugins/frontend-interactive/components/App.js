@@ -10,6 +10,7 @@ import { MinersTab } from './tabs/MinersTab'
 import { CoinsTab } from './tabs/CoinsTab'
 import objectPath from 'object-path'
 import { ipcRenderer } from 'electron'
+import { PoolsTab } from './tabs/PoolsTab'
 
 export default class App extends Component {
 
@@ -22,7 +23,11 @@ export default class App extends Component {
   render () {
 
     let titleBarHandlers = {
-      onCloseClick: () => ipcRenderer.send('window', 'close'),
+      onCloseClick: () => confirm(
+        'Closing this window will terminate all mining activities. Are you sure you want to quit?',
+        'Terminate Meta Agent?')
+        ? ipcRenderer.send('window', 'close')
+        : null,
       onMaximizeClick: () => ipcRenderer.send('window', 'maximize'),
       onMinimizeClick: () => ipcRenderer.send('window', 'minimize'),
       onRestoreDownClick: () => ipcRenderer.send('window', 'restore'),
@@ -34,7 +39,7 @@ export default class App extends Component {
         render: () => <Tab.Pane><MinersTab/></Tab.Pane>,
       },
       {
-        menuItem: 'Coins & Pools',
+        menuItem: 'Coins',
         render: () => <Tab.Pane><CoinsTab/></Tab.Pane>,
       }, {
         menuItem: 'Algorithms',
@@ -46,6 +51,23 @@ export default class App extends Component {
       },
     ]
 
+    let tabContentComponents = {
+      'Miners': <MinersTab/>,
+      'Pools': <PoolsTab/>,
+      'Coins': <CoinsTab/>,
+      'Algorithms': <AlgorithmsTab/>,
+      'Debug': <DebugTab/>,
+    }
+
+    panes = Object.keys(tabContentComponents).map(title => {
+        return {
+          menuItem: title,
+          render: () => <Tab.Pane>
+            {tabContentComponents[title]}
+          </Tab.Pane>,
+        }
+      },
+    )
     return <Window theme="light">
       <TitleBar
         title="GX META Agent"
