@@ -1,14 +1,14 @@
 {
-  "name": "ui-interactive",
+  "name": "frontend-interactive",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
   "plugin": {
     "consumes": [
-      "ui-registry"
+      "frontend-registry"
     ],
     "provides": [
-      "ui-interactive"
+      "frontend-interactive"
     ]
   }
 }

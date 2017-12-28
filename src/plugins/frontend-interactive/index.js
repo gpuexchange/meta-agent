@@ -4,16 +4,16 @@ import url from 'url'
 
 import { MetaModule, moduleWrapper } from '../../common/MetaModule'
 
-class InteractiveUIModule extends MetaModule {
+class InteractiveFrontendModule extends MetaModule {
 
   async setup (options, imports): Promise<Object> {
-    let registry = imports['ui-registry']
+    let registry = imports['frontend-registry']
     this.store = registry.getStore()
 
     registry.registerDependency(this)
 
     return {
-      'ui-interactive': this,
+      'frontend-interactive': this,
     }
   }
 
@@ -98,4 +98,4 @@ class InteractiveUIModule extends MetaModule {
   }
 }
 
-module.exports = moduleWrapper(InteractiveUIModule)
+module.exports = moduleWrapper(InteractiveFrontendModule)

@@ -1,10 +1,10 @@
 import { RegistryModule } from '../../common/RegistryModule'
 import { moduleWrapper } from '../../common/MetaModule'
 
-class DriverRegistry extends RegistryModule {
+class FrontendRegistry extends RegistryModule {
   setup (options, imports) {
     return super.setup({
-      modulePrefix: 'ui-',
+      modulePrefix: 'frontend-',
     }, imports)
   }
 
@@ -14,4 +14,4 @@ class DriverRegistry extends RegistryModule {
   }
 }
 
-module.exports = moduleWrapper(DriverRegistry)
+module.exports = moduleWrapper(FrontendRegistry)

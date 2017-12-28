@@ -1,5 +1,5 @@
 {
-  "name": "ui-registry",
+  "name": "frontend-registry",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
@@ -8,7 +8,7 @@
       "store"
     ],
     "provides": [
-      "ui-registry"
+      "frontend-registry"
     ]
   }
 }

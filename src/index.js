@@ -14,6 +14,6 @@ architect.createApp(config, (err, app) => {
   }
 
   debug('Good news! All services have been loaded.')
-  app.services['ui-registry'].launch()
+  app.services['frontend-registry'].launch()
 })
 
