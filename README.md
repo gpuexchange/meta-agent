@@ -2,46 +2,64 @@
 
 META (META Enhanced Trading Agent) is GPU Exchange's mining control agent. It plays the following roles:
 
-* It manages crypto currency miners and switch to the most profitable one, according to data retrieved from the GX API.
-* It keep the trading key locally and execute trading instruction from the API. Most common use case is automated selling of mined coin, or cashing out from pool.
+* It manages crypto currency miners and switch to the most profitable one, according to data retrieved from the GPU Exchange (GX) API.
+* It keep the trading key locally and execute trading instruction from GX. Most common use case is automated selling of mined coin, or cashing out from pool.
 
-## Design Principles
+**This software is currently in pre-alpha stage and should be considered experimental. Use at your own risk.**
 
-### Security First
+## Requirements
 
-All design decisions must take security as the first priority.
+* NodeJS 8+
 
-* The agent must allow for manual override to cater for users who prefer not to entrust their system to GX's central control.
-* All external binaries must be checksum'd following download and before use.
-* The Agent must self-verify itself before execution
-* To protect against local root ssl attack. A copy of the API server's public key should be embedded and be tested against from each release of the agent.
-* Private keys (including API tokens for external providers), especially those used in trading, must never leave the computer. GX's server should never store user's trading credentials.
+## How to run
 
-### Decentralised Control
+```
+npm install
+npm start
+```
 
-* The agent must obey locally set parameters if they conflict with the command from the GX API.
-* The agent must report the difference to the GX API, so that the user is aware of it (in case of a local attack).
+## Developer's Guide
 
-Example use case 1 - legitimate control:
+See [Design Principles](doc/Design.md).
 
-* GX's system lets user configure pools via the web dashboard and API.
-* Some users are afraid that their rigs may switch to the wrong pool if GX gets hacked.
-* These users can choose to override the pool configs at the node level, so that their hasing power are always sent to the right place.
-* GX's dashboard reports the local changes, the user feels assured.
+The whole application is structured into modules, with an extensible plugin system. At the time of writing, the general structure is still unstable.
 
-Example use case 2 - hack detection:
+### Directory structure
 
-* A mining node is compromised (e.g. via a virus), the attacker changes the local config file to redirect hashing power to their pool.
-* The agent reports this back to GX's API.
-* GX's dashboard shows this to the user.
-* The user investigates their mining device and remove the hack.
+```
+|-doc                       # Documentation
+|-lib                       # Compiled files
+|-miners                    # Folder containing miner executable, for testing only
+|-plugins                   # Placeholder folder for 3rd-party plugins
+|-src                       # Source files
+  |-common                  # Shared classes *
+  |-core                    # Core modules *
+  |-plugins                 # System plugins, can be disabled in the future
+  |-config.js               # Plugin loader *
+  |-electron-bootstrap.js   # For development only
+  |-index.js                # Main entry point
+|-.*                        # Project config files
+```
 
-### Modular
+Folders marked with `*` are a good starting point for new developers.
 
-The agent is structured so that its component can be developed individually, following a plugin-based architecture. We use [Cloud9's Architect](https://github.com/c9/architect) framework for this. This enables enterprise and power users to make integrate with the core agent via custom module.
+## Roadmap
 
-The agent should be able to run in different "modes", depending on activated plugins:
+- [x] General project structure
+- [x] Module & Plugin system
+- [x] Storage API
+- [x] Retrieve coin data via 3rd party APIs
+- [x] Basic debugging UI (CLI)
+- [x] GUI with basic navigation
+- [ ] Coin list (partially done)
+- [ ] Local mining strategy
+- [ ] Meta-miner architect
+- [ ] CC Miner driver
+- [ ] Status API (internal)
+- [ ] Reporting frontend
+- [ ] Unit tests
+- [ ] Beta/Production Build Pipeline
 
-* Mining Controller
-* Trading
-* Code signing only
+## License
+
+We are currently working on a new license for META. For now, the code is released under All Rights Reserved.
