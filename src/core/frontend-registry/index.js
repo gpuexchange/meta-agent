@@ -1,17 +1,17 @@
-import { RegistryModule } from '../../common/RegistryModule'
-import { moduleWrapper } from '../../common/MetaModule'
+import RegistryModule from '../../common/RegistryModule';
+import { moduleWrapper } from '../../common/MetaModule';
 
 class FrontendRegistry extends RegistryModule {
-  setup (options, imports) {
+  setup(options, imports) {
     return super.setup({
       modulePrefix: 'frontend-',
-    }, imports)
+    }, imports);
   }
 
-  launch () {
-    this.printDebug('Launching UIs')
-    this.subModules.forEach(module => module.launch())
+  launch() {
+    this.printDebug('Launching UIs');
+    this.subModules.forEach(module => module.launch());
   }
 }
 
-module.exports = moduleWrapper(FrontendRegistry)
+module.exports = moduleWrapper(FrontendRegistry);

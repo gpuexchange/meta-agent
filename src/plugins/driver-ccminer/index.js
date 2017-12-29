@@ -1,20 +1,19 @@
-import { MetaModule, moduleWrapper } from '../../common/MetaModule'
+import { MetaModule, moduleWrapper } from '../../common/MetaModule';
 
 class CCMinerDriver extends MetaModule {
-
-  async setup (options, imports) {
-    const registry = imports['driver-registry']
-    registry.registerDependency(this)
+  async setup(options, imports) {
+    const registry = imports['driver-registry'];
+    registry.registerDependency(this);
     return {
       'driver-ccminer': this,
-    }
+    };
   }
 
-  getSupportedAlgorithms () {
+  static getSupportedAlgorithms() {
     return [
       'asic', 'dummycoin',
-    ]
+    ];
   }
 }
 
-module.exports = moduleWrapper(CCMinerDriver)
+module.exports = moduleWrapper(CCMinerDriver);

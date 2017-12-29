@@ -1,12 +1,12 @@
-import { RegistryModule } from '../../common/RegistryModule'
-import { moduleWrapper } from '../../common/MetaModule'
+import RegistryModule from '../../common/RegistryModule';
+import { moduleWrapper } from '../../common/MetaModule';
 
 class DriverRegistry extends RegistryModule {
-  setup (options, imports) {
+  setup(options, imports) {
     return super.setup({
       modulePrefix: 'strategy-',
-    }, imports)
+    }, imports);
   }
 }
 
-module.exports = moduleWrapper(DriverRegistry)
+module.exports = moduleWrapper(DriverRegistry);

@@ -1,19 +1,18 @@
-require('babel-register')
+import 'babel-register';
+import architect from 'architect';
+import path from 'path';
+import { debug } from 'util';
 
-import architect from 'architect'
-import path from 'path'
-import { debug } from 'util'
+const configPath = path.join(__dirname, 'config.js');
+const config = architect.loadConfig(configPath);
 
-let configPath = path.join(__dirname, 'config.js')
-let config = architect.loadConfig(configPath)
-
-console.log('Loaded config')
+debug('Loaded config');
 architect.createApp(config, (err, app) => {
   if (err) {
-    throw err
+    throw err;
   }
 
-  debug('Good news! All services have been loaded.')
-  app.services['frontend-registry'].launch()
-})
+  debug('Good news! All services have been loaded.');
+  app.services['frontend-registry'].launch();
+});
 

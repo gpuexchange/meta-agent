@@ -1,35 +1,34 @@
-import { RegistryModule } from '../../common/RegistryModule'
-import { moduleWrapper } from '../../common/MetaModule'
+import RegistryModule from '../../common/RegistryModule';
+import { moduleWrapper } from '../../common/MetaModule';
 
 class DriverRegistry extends RegistryModule {
-
-  setup (options, imports) {
+  setup(options, imports) {
     return super.setup({
       modulePrefix: 'driver-',
-    }, imports)
+    }, imports);
   }
 
-  registerDependency (subModule) {
-    super.registerDependency(subModule)
+  registerDependency(subModule) {
+    super.registerDependency(subModule);
 
-    let minerName = subModule.constructor.name // ClassName of the miner
-    if (typeof subModule.getSupportedAlgorithms == 'function') {
-      let supportedAlgorithms = subModule.getSupportedAlgorithms()
+    const minerName = subModule.constructor.name; // ClassName of the miner
+    if (typeof subModule.constructor.getSupportedAlgorithms === 'function') {
+      const supportedAlgorithms = subModule.constructor.getSupportedAlgorithms();
       // Add algorithms into the supported list
       this.getStore().append(
         'session.supportedAlgorithms',
         supportedAlgorithms,
-      )
+      );
 
       this.getStore().set(
-        'session.drivers.' + minerName + '.supportedAlgorithms',
+        `session.drivers.${minerName}.supportedAlgorithms`,
         supportedAlgorithms,
-      )
+      );
     } else {
-      this.printDebug('The module ' + minerName +
-        ' did not report any supported algorithms')
+      this.printDebug(`The module ${minerName
+      } did not report any supported algorithms`);
     }
   }
 }
 
-module.exports = moduleWrapper(DriverRegistry)
+module.exports = moduleWrapper(DriverRegistry);

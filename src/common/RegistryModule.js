@@ -1,15 +1,14 @@
-import { MetaModule } from './MetaModule'
+import { MetaModule } from './MetaModule';
 
-export class RegistryModule extends MetaModule {
-
+export default class RegistryModule extends MetaModule {
   /**
    * Set a config/session value
    *
    * @param path
    * @param value
    */
-  set (path: string, value) {
-    this.store.set(path, value)
+  set(path, value) {
+    this.store.set(path, value);
   }
 
   /**
@@ -17,24 +16,24 @@ export class RegistryModule extends MetaModule {
    * @param path
    * @param defaultValue
    */
-  get (path: string, defaultValue = null) {
-    return this.store.get(path, defaultValue)
+  get(path, defaultValue = null) {
+    return this.store.get(path, defaultValue);
   }
 
-  async setup (options, imports): Promise<Object> {
-    let {modulePrefix, readScopes = [], writeScopes = []} = options
+  async setup(options, imports) {
+    const { modulePrefix } = options;
 
-    this.store = imports.store
-    this.subModules = []
-    this.modulePrefix = modulePrefix
+    this.store = imports.store;
+    this.subModules = [];
+    this.modulePrefix = modulePrefix;
 
     return {
-      [modulePrefix + 'registry']: this,
-    }
+      [`${modulePrefix}registry`]: this,
+    };
   }
 
-  getStore () {
-    return this.store
+  getStore() {
+    return this.store;
   }
 
   /**
@@ -44,8 +43,8 @@ export class RegistryModule extends MetaModule {
    * method.
    * @param subModule
    */
-  registerDependency (subModule) {
-    this.subModules.push(subModule)
-    this.printDebug('Loaded registry dependency ' + subModule.constructor.name)
+  registerDependency(subModule) {
+    this.subModules.push(subModule);
+    this.printDebug(`Loaded registry dependency ${subModule.constructor.name}`);
   }
 }
