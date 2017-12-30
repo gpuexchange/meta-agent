@@ -3,6 +3,7 @@ import { debug } from 'util';
 export class MetaModule {
   constructor(options, imports, register) {
     this.printDebug('Initialising');
+    this.imports = imports;
     this.setup(options, imports).then((exports) => {
       this.printDebug('Ready', 'green');
       register(null, exports);

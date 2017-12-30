@@ -47,4 +47,9 @@ export default class RegistryModule extends MetaModule {
     this.subModules.push(subModule);
     this.printDebug(`Loaded registry dependency ${subModule.constructor.name}`);
   }
+
+  launch() {
+    this.printDebug('Launching Sub modules');
+    this.subModules.forEach(module => module.launch());
+  }
 }

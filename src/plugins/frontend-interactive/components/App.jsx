@@ -7,9 +7,6 @@ import AlgorithmsTab from './tabs/AlgorithmsTab';
 import MinersTab from './tabs/MinersTab';
 import CoinsTab from './tabs/CoinsTab';
 import PoolsTab from './tabs/PoolsTab';
-import { Provider } from 'react-redux';
-
-import { Store } from 'redux';
 
 export default class App extends Component {
   render() {
@@ -36,9 +33,8 @@ export default class App extends Component {
       ),
     }));
     return (
-      <Provider store={this.props.store}>
-        <Tab
-          menu={{
+      <Tab
+        menu={{
         color: 'blue',
         secondary: true,
         pointing: true,
@@ -46,14 +42,13 @@ export default class App extends Component {
         vertical: true,
         tabular: true,
       }}
-          panes={panes}
-          style={{ width: '100%' }}
-        />
-      </Provider>
+        panes={panes}
+        style={{ width: '100%' }}
+      />
     );
   }
 }
 
-App.propTypes = {
-  store: Store,
+App.contextTypes = {
+  store: PropTypes.object,
 };

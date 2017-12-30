@@ -16,9 +16,11 @@ export default class AlgorithmsTab extends Component {
   }
 
   render() {
-    return (<div>
-      {this.getAlgorithmTable()}
-    </div>);
+    return (
+      <div>
+        {this.getAlgorithmTable()}
+      </div>
+    );
   }
 }
 

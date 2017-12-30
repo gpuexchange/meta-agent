@@ -1,58 +1,23 @@
 import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import * as Table from 'reactabular-table';
-
-import { Select, Input, Divider, Form } from 'semantic-ui-react';
 import objectPath from 'object-path';
+import * as Table from 'reactabular-table';
+import { Divider } from 'semantic-ui-react';
 
 import algorithmNames from '../../data/algorithms.json';
 import hardwareHashRates from '../../data/hardware.json';
-
-class PreviewSettingForm extends PureComponent {
-  render() {
-    const {
-      hardware, onHardwareChange, exchangeRate, onExchangeRateChange,
-    } = this.props;
-
-    const hardwareOptions = Object.keys(hardwareHashRates).map(handle => ({ text: handle, value: handle }));
-
-    return (
-      <Form>
-        <Form.Field inline>
-          <label>Select hardware</label>
-          <Select
-            value={hardware}
-            fluid
-            search
-            selection
-            options={hardwareOptions}
-            onChange={(e, { name, value }) => onHardwareChange(value)}
-          />
-        </Form.Field>
-        <Form.Field inline>
-          <label>Exchange Rate (&lt;Fiat&gt;/BTC)</label>
-          <Input
-            value={exchangeRate}
-            onChange={(e, { name, value }) => onExchangeRateChange(parseFloat(value))}
-          />
-        </Form.Field>
-      </Form>
-    );
-  }
-}
+import PreviewSettingForm from './coins/PreviewSettingForm';
 
 export default class CoinsTab extends Component {
   static getAlgorithmCode(algorithmName) {
     if (!this.algorithmNameToCode) {
       this.algorithmNameToCode = {};
-      for (const code in algorithmNames) {
+      Object.keys(algorithmNames).forEach((code) => {
         this.algorithmNameToCode[algorithmNames[code]] = code;
-      }
-
-      console.log('Ready ', this.algorithmNameToCode);
+      });
     }
-    return this.algorithmNameToCode.hasOwnProperty(algorithmName)
+    return typeof this.algorithmNameToCode[algorithmName] === 'string'
       ? this.algorithmNameToCode[algorithmName]
       : null;
   }
@@ -74,19 +39,19 @@ export default class CoinsTab extends Component {
       0,
     );
 
-    const onHardwareChange = (hardware) => {
+    const onHardwareChange = (newHardware) => {
       this.context.store.dispatch({
         type: 'SET',
         path: 'session.gpu_exchange.interactive.previewHardware',
-        value: hardware,
+        value: newHardware,
       });
     };
 
-    const onExchangeRateChange = (exchangeRate) => {
+    const onExchangeRateChange = (newExchangeRate) => {
       this.context.store.dispatch({
         type: 'SET',
         path: 'session.gpu_exchange.interactive.previewExchangeRate',
-        value: exchangeRate,
+        value: newExchangeRate,
       });
     };
 
@@ -128,7 +93,6 @@ export default class CoinsTab extends Component {
       'session.gpu_exchange.coinData', [],
     ).map((coinData) => {
       const algorithmCode = CoinsTab.getAlgorithmCode(coinData.algorithm);
-      console.log(hardwareHashRates, hardware, algorithmCode);
       const hardwareHashRate = objectPath.get(
         hardwareHashRates,
         `${[hardware, algorithmCode].join('.')}_hr`,
@@ -146,13 +110,6 @@ export default class CoinsTab extends Component {
           dailyFiatEarning: parseFloat(dailyFiatEarning.toPrecision(2)),
         },
       );
-    }).sort((a, b) => {
-      if (a.dailyBtcEarning > b.dailyBtcEarning) {
-        return -1;
-      } else if (a.dailyBtcEarning == b.dailyBtcEarning) {
-        return 0;
-      }
-      return 1;
     });
 
     return (

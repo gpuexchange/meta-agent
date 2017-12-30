@@ -14,5 +14,6 @@ architect.createApp(config, (err, app) => {
 
   debug('Good news! All services have been loaded.');
   app.services['frontend-registry'].launch();
+  app.services['driver-registry'].launch();
 });
 

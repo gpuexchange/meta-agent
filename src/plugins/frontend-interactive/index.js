@@ -30,9 +30,14 @@ class InteractiveFrontendModule extends MetaModule {
           ? 'assets/icons/mineral/256x256.png'
           : 'assets/icons/mineral/mineral.icns',
       ),
+      show: false,
       webPreferences: {
         // devTools: false,
       },
+    });
+
+    this.window.once('ready-to-show', () => {
+      this.window.show();
     });
 
     // and load the index.html of the app.

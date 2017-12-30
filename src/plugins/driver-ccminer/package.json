@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
+  "dependencies": {
+    "javascript-state-machine": "^3.0.1",
+    "lodash": "^4.17.4"
+  },
   "plugin": {
     "consumes": [
       "driver-registry"

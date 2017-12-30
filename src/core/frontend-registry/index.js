@@ -7,11 +7,6 @@ class FrontendRegistry extends RegistryModule {
       modulePrefix: 'frontend-',
     }, imports);
   }
-
-  launch() {
-    this.printDebug('Launching UIs');
-    this.subModules.forEach(module => module.launch());
-  }
 }
 
 module.exports = moduleWrapper(FrontendRegistry);
