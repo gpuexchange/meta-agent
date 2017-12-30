@@ -51,7 +51,14 @@
     "get-json": "^1.0.0",
     "jest": "^22.0.4",
     "lodash": "^4.17.4",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "store": "file:src/core/store",
+    "driver-registry": "file:src/core/driver-registry",
+    "frontend-registry": "file:src/core/frontend-registry",
+    "strategy-registry": "file:src/core/strategy-registry",
+    "driver-ccminer": "file:src/plugins/driver-ccminer",
+    "frontend-interactive": "file:src/plugins/frontend-interactive",
+    "frontend-pricefeed": "file:src/plugins/frontend-pricefeed"
   },
   "jest": {
     "modulePathIgnorePatterns": [
