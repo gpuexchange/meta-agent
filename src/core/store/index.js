@@ -3,6 +3,7 @@ import objectPath from 'object-path';
 import readJsonSync from 'read-json-sync';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
+import debounce from 'debounce';
 
 import { moduleWrapper, MetaModule } from '../../common/MetaModule';
 
@@ -28,6 +29,12 @@ class StoreModule extends MetaModule {
         case 'SET': {
           objectPath.set(state, action.path, action.value);
           return state; }
+        case 'PUSH': {
+          const pathValue = objectPath.get(state, action.path, []);
+          pathValue.push(action.value);
+          objectPath.set(state, action.path, pathValue);
+          return state;
+        }
         default: {
           return state;
         }

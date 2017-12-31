@@ -11,6 +11,7 @@
     "react": "^16.2.0",
     "react-desktop": "^0.3.3",
     "react-dom": "^16.2.0",
+    "react-edit": "^6.4.0",
     "react-json-tree": "^0.11.0",
     "react-redux": "^5.0.6",
     "react-scroll-box": "^0.3.5",
@@ -20,7 +21,8 @@
     "read-json-sync": "^2.0.0",
     "redux": "^3.7.2",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.77.1"
+    "semantic-ui-react": "^0.77.1",
+    "uuid": "^3.1.0"
   },
   "plugin": {
     "consumes": [
