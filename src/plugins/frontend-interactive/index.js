@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import url from 'url';
 import { debug } from 'util';
+import isElectron from 'is-electron';
 
 import { MetaModule, moduleWrapper } from '../../common/MetaModule';
 
@@ -80,6 +81,11 @@ class InteractiveFrontendModule extends MetaModule {
 
   async launch() {
     try {
+      if (!isElectron()) {
+        this.printDebug('Started in non-interactive mode');
+        return;
+      }
+
       this.printDebug('Rendering interactive UI');
 
       app.on('ready', () => this.createWindow());

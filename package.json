@@ -9,7 +9,8 @@
     "lint": "eslint src/ --fix",
     "test": "jest src/ --no-cache",
     "build": "echo Build script not ready",
-    "start": "electron src/electron-bootstrap.js"
+    "start": "electron src/bootstrap.js",
+    "start-cli": "node src/bootstrap.js"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,8 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-react": "^7.4.0",
+    "webpack": "^3.10.0"
   },
   "dependencies": {
     "@blueprintjs/core": "^1.35.0",
