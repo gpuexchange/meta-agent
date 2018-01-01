@@ -1,4 +1,4 @@
-import { debug } from 'util';
+import { debug } from 'console';
 
 export class MetaModule {
   constructor(options, imports, register) {

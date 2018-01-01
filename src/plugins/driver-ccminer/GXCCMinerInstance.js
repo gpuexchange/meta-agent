@@ -1,8 +1,8 @@
 import StateMachine from 'javascript-state-machine';
 import { isEqual, isEmpty } from 'lodash';
-import { execFile, spawn } from 'child_process';
+import { execFile } from 'child_process';
 import { join as pathJoin } from 'path';
-import { debug } from 'util';
+import { debug } from 'console';
 
 export default class GXCCMinerInstance {
   constructor() {
@@ -28,7 +28,7 @@ export default class GXCCMinerInstance {
           debug(`Killing process ${process.pid}`);
           return new Promise((resolve) => {
             process.on('exit', (code) => {
-              console.log('Exitting with code ', code);
+              debug('Exitting with code ', code);
               resolve();
             });
             process.kill();
@@ -62,7 +62,7 @@ export default class GXCCMinerInstance {
               this.childProcess = execFile(minerPath, [
                 '-o', 'stratum+tcp://zec-apac.suprnova.cc:4142', '-u', 'thoaionline.hetzner', '-p', 'hetzner', '-a', 'equihash',
               ]);
-              this.childProcess.on('data', console.log);
+              this.childProcess.on('data', debug);
               if (this.childProcess.pid) {
                 debug(`Spawned child process with PID ${this.childProcess.pid}`);
                 this.ready();

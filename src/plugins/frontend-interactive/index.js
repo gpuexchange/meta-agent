@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import url from 'url';
-import { debug } from 'util';
+import { debug } from 'console';
 import isElectron from 'is-electron';
 
 import { MetaModule, moduleWrapper } from '../../common/MetaModule';

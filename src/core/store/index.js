@@ -3,7 +3,6 @@ import objectPath from 'object-path';
 import readJsonSync from 'read-json-sync';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
-import debounce from 'debounce';
 
 import { moduleWrapper, MetaModule } from '../../common/MetaModule';
 

@@ -1,7 +1,7 @@
 import 'babel-register';
 import architect from 'architect';
 import path from 'path';
-import { debug } from 'util';
+import { debug } from 'console';
 
 const configPath = path.join(__dirname, 'config.js');
 const config = architect.loadConfig(configPath);
