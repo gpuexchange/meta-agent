@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { Provider } from 'react-redux';
 import { Tab } from 'semantic-ui-react';
 import DebugTab from './tabs/DebugTab';
 import AlgorithmsTab from './tabs/AlgorithmsTab';
@@ -10,9 +10,11 @@ import PoolsTab from './tabs/PoolsTab';
 
 export default class App extends Component {
   render() {
+    const { store } = this.props;
+
     const tabContentComponents = {
       Miners: <MinersTab />,
-      Pools: <PoolsTab />,
+      Pools: <PoolsTab store={store} />,
       Coins: <CoinsTab />,
       Algorithms: <AlgorithmsTab />,
       Debug: <DebugTab />,
@@ -33,8 +35,9 @@ export default class App extends Component {
       ),
     }));
     return (
-      <Tab
-        menu={{
+      <Provider store={store}>
+        <Tab
+          menu={{
         color: 'blue',
         secondary: true,
         pointing: true,
@@ -42,13 +45,14 @@ export default class App extends Component {
         vertical: true,
         tabular: true,
       }}
-        panes={panes}
-        style={{ width: '100%' }}
-      />
+          panes={panes}
+          style={{ width: '100%' }}
+        />
+      </Provider>
     );
   }
 }
 
-App.contextTypes = {
+App.propTypes = {
   store: PropTypes.object,
 };

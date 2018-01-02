@@ -11,18 +11,63 @@ import objectPath from 'object-path';
 import { Segment, Button } from 'semantic-ui-react';
 
 export default class PoolsTab extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+
+    const editable = edit.edit({
+      isEditing: ({ columnIndex, rowData }) => rowData.editing === columnIndex,
+      onActivate: ({ columnIndex, rowData }) => {
+        // this.state.editing[rowData.uuid] = columnIndex;
+        this.context.store.dispatch({
+          type: 'SET',
+          path: `session.gpu_exchange.interactive.pools.editing.${rowData.uuid}`,
+          value: columnIndex,
+        });
+      },
+
+      onValue: ({ value, rowData, property }) => {
+        const { uuid } = rowData;
+        const poolIndex = objectPath.get(this.context.store.getState(), 'config.pools', []).findIndex(pool => pool.uuid === uuid);
+
+        this.context.store.dispatch({
+          type: 'SET',
+          path: `session.gpu_exchange.interactive.pools.editing.${rowData.uuid}`,
+          value: null,
+        });
+
+        this.context.store.dispatch({
+          type: 'SET',
+          path: `config.pools.${poolIndex}.${property}`,
+          value,
+        });
+      },
+    });
+
     const columns = [
       {
         property: 'url',
         header: {
           label: 'Connection URL',
         },
+        cell: {
+          transforms: [
+            (value, extra) => editable(edit.input())(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
+        },
       },
       {
         property: 'username',
         header: {
           label: 'username',
+        },
+        cell: {
+          transforms: [
+            (value, extra) => editable(edit.input())(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
         },
       },
       {
@@ -31,9 +76,62 @@ export default class PoolsTab extends Component {
           label: 'password',
         },
       },
+      {
+        property: 'enabled',
+        header: {
+          label: 'enabled',
+        },
+        cell: {
+          type: 'boolean',
+          transforms: [
+            (value, extra) => editable(edit.boolean())(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
+        },
+      }, {
+        header: {
+          laber: 'Delete',
+        },
+        cell: {
+          formatters: [
+            (value, { rowData }) =>
+              (
+                <span
+                  className="remove"
+                  onClick={() => this.onRemove(rowData.uuid)}
+                  style={{ cursor: 'pointer' }}
+                >
+                [Delete]
+                </span>
+              ),
+          ],
+        },
+      },
     ];
-    const rows = objectPath.get(this.context.store.getState(), 'config.pools', []);
 
+    this.state = {
+      columns,
+    };
+  }
+
+  onRemove(poolUuid) {
+    if (!confirm('Are you sure you want to delete this pool?')) {
+      return; // Abort
+    }
+    const allPools = objectPath.get(this.context.store.getState(), 'config.pools', []);
+    const obsoletedPoolIndex = allPools.findIndex(pool => pool.uuid === poolUuid);
+    if (obsoletedPoolIndex > -1) {
+      delete (allPools[obsoletedPoolIndex]);
+      this.context.store.dispatch({
+        type: 'SET',
+        path: 'config.pools',
+        value: allPools,
+      });
+    }
+  }
+
+  render() {
     const addPool = () => {
       this.context.store.dispatch({
         type: 'PUSH',
@@ -43,9 +141,13 @@ export default class PoolsTab extends Component {
           url: '<enter url>',
           username: '<enter username>',
           password: '<enter password>',
+          enabled: false,
         },
       });
     };
+
+    const { columns } = this.state;
+    const rows = this.getRowsFromStore(this.context.store);
 
     return (
       <Segment padded>
@@ -59,6 +161,18 @@ export default class PoolsTab extends Component {
         <Button onClick={addPool}>Add new</Button>
       </Segment>
     );
+  }
+
+  getRowsFromStore(store) {
+    const basePools = objectPath.get(store.getState(), 'config.pools', []);
+    const editingMarkers = objectPath.get(store.getState(), 'session.gpu_exchange.interactive.pools.editing', {});
+    const processedPools = basePools.map(pool => Object.assign(
+      {}, pool,
+      { editing: (pool.uuid in editingMarkers ? editingMarkers[pool.uuid] : null) },
+    ));
+
+    console.log('Processed pools ', processedPools);
+    return processedPools;
   }
 }
 

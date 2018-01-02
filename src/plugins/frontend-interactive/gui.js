@@ -7,10 +7,11 @@ import App from './components/App';
 
 /** global document */
 rendererStore.subscribe(() => {
+  console.log('Rerendering');
   render(
-    React.createElement(Provider, {
+    React.createElement(App, {
       store: rendererStore,
-    }, React.createElement(App)),
+    }),
     document.getElementById('app'),
   );
 });
