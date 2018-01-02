@@ -4,9 +4,9 @@ import { moduleWrapper } from '../../common/util';
 import GXCCMinerInstance from './GXCCMinerInstance';
 
 class CCMinerDriver extends MetaModule {
-  async setup(options, imports) {
-    // const registry = imports['driver-registry'];
-    // registry.registerDependency(this);
+  async setup() {
+    const registry = this.imports['driver-registry'];
+    registry.registerDependency(this);
     return {
       'driver-ccminer': this,
     };
