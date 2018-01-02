@@ -60,7 +60,7 @@ export default class PoolsTab extends Component {
       {
         property: 'username',
         header: {
-          label: 'username',
+          label: 'Username',
         },
         cell: {
           transforms: [
@@ -73,16 +73,25 @@ export default class PoolsTab extends Component {
       {
         property: 'password',
         header: {
-          label: 'password',
+          label: 'Password',
+        },
+        cell: {
+          transforms: [
+            (value, extra) => editable(edit.input())(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
         },
       },
       {
         property: 'enabled',
         header: {
-          label: 'enabled',
+          label: 'Enabled',
         },
         cell: {
-          type: 'boolean',
+          formatters: [
+            active => active && <span>&#10003;</span>,
+          ],
           transforms: [
             (value, extra) => editable(edit.boolean())(value, extra, {
               className: extra.rowData.edited && 'edited',
