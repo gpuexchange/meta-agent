@@ -1,13 +1,6 @@
-import RegistryModule from '../../common/RegistryModule';
-import { moduleWrapper } from '../../common/MetaModule';
+import BaseRegistryService from './BaseRegistryService';
 
-class DriverRegistry extends RegistryModule {
-  setup(options, imports) {
-    return super.setup({
-      modulePrefix: 'driver-',
-    }, imports);
-  }
-
+export default class DriverRegistryService extends BaseRegistryService {
   registerDependency(subModule) {
     super.registerDependency(subModule);
 
@@ -30,5 +23,3 @@ class DriverRegistry extends RegistryModule {
     }
   }
 }
-
-module.exports = moduleWrapper(DriverRegistry);

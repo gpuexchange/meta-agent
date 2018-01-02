@@ -1,10 +1,10 @@
-import { debug } from 'console';
+import { error as debug } from 'console';
 
-export class MetaModule {
+export default class MetaModule {
   constructor(options, imports, register) {
     this.printDebug('Initialising');
     this.imports = imports;
-    this.setup(options, imports).then((exports) => {
+    this.setup(options).then((exports) => {
       this.printDebug('Ready', 'green');
       register(null, exports);
     }).catch((error) => {
@@ -19,8 +19,7 @@ export class MetaModule {
    * @param imports: Object
    * @return {Promise<Object>}
    */
-  async setup(options, imports) {
-    this.imports = imports;
+  async setup() {
     return {};
   }
 
@@ -32,8 +31,4 @@ export class MetaModule {
   printDebug(message) {
     debug(`[${this.constructor.name}] ${message}`);
   }
-}
-
-export function moduleWrapper(ExtendedModuleClass) {
-  return (options, imports, register) => new ExtendedModuleClass(options, imports, register);
 }

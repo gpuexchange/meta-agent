@@ -1,5 +1,5 @@
 {
-  "name": "driver-ccminer",
+  "name": "@gpuexchange/meta-agent-driver-ccminer",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,

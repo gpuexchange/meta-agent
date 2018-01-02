@@ -1,6 +1,6 @@
-import { MetaModule } from './MetaModule';
+import { error as debug } from 'console';
 
-export default class RegistryModule extends MetaModule {
+export default class BaseRegistryService {
   /**
    * Set a config/session value
    *
@@ -20,16 +20,9 @@ export default class RegistryModule extends MetaModule {
     return this.store.get(path, defaultValue);
   }
 
-  async setup(options, imports) {
-    const { modulePrefix } = options;
-
-    this.store = imports.store;
+  constructor(store) {
+    this.store = store;
     this.subModules = [];
-    this.modulePrefix = modulePrefix;
-
-    return {
-      [`${modulePrefix}registry`]: this,
-    };
   }
 
   getStore() {
@@ -45,11 +38,11 @@ export default class RegistryModule extends MetaModule {
    */
   registerDependency(subModule) {
     this.subModules.push(subModule);
-    this.printDebug(`Loaded registry dependency ${subModule.constructor.name}`);
+    debug(`Loaded registry dependency ${subModule.constructor.name}`);
   }
 
   launch() {
-    this.printDebug('Launching Sub modules');
+    debug('Launching Sub services');
     this.subModules.forEach(module => module.launch());
   }
 }

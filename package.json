@@ -1,5 +1,5 @@
 {
-  "name": "meta-agent",
+  "name": "@gpuexchange/meta-agent",
   "productName": "GX Meta Agent",
   "version": "0.0.1",
   "description": "META Enhanced Trading Agent",
@@ -43,24 +43,22 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^1.35.0",
+    "@gpuechange/meta-agent-core": "file:src/core",
+    "@gpuexchange/meta-agent-core": "file:src/core",
+    "@gpuexchange/meta-agent-driver-ccminer": "file:src/plugins/driver-ccminer",
+    "@gpuexchange/meta-agent-frontend-interactive": "file:src/plugins/frontend-interactive",
+    "@gpuexchange/meta-agent-frontend-pricefeed": "file:src/plugins/frontend-pricefeed",
     "architect": "^0.1.13",
     "babel-plugin-react-css-modules": "^3.3.2",
     "babel-register": "^6.26.0",
     "bluebird": "^3.5.1",
-    "electron": "^1.7.10",
+    "electron": "^1.8.1",
     "eslint-config-airbnb-flow": "^1.0.2",
     "flow-bin": "^0.61.0",
     "get-json": "^1.0.0",
     "jest": "^22.0.4",
     "lodash": "^4.17.4",
-    "object-path": "^0.11.4",
-    "store": "file:src/core/store",
-    "driver-registry": "file:src/core/driver-registry",
-    "frontend-registry": "file:src/core/frontend-registry",
-    "strategy-registry": "file:src/core/strategy-registry",
-    "driver-ccminer": "file:src/plugins/driver-ccminer",
-    "frontend-interactive": "file:src/plugins/frontend-interactive",
-    "frontend-pricefeed": "file:src/plugins/frontend-pricefeed"
+    "object-path": "^0.11.4"
   },
   "jest": {
     "modulePathIgnorePatterns": [

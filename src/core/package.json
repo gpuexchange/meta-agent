@@ -1,11 +1,13 @@
 {
-  "name": "store",
+  "name": "@gpuechange/meta-agent-core",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,
   "plugin": {
     "provides": [
-      "store"
+      "strategy-registry",
+      "frontend-registry",
+      "driver-registry"
     ]
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 {
-  "name": "frontend-interactive",
+  "name": "@gpuexchange/meta-agent-frontend-interactive",
   "version": "0.0.1",
   "main": "index.js",
   "private": true,

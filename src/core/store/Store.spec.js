@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { createStore } from 'redux';
 
-import store from './index';
+import store from '../services/StoreService';
 
 describe('store', () => {
   describe('subscribe', () => {

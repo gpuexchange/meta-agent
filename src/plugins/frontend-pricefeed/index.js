@@ -1,12 +1,12 @@
 import getJson from 'get-json';
 import { promisify } from 'bluebird';
 
-import { MetaModule, moduleWrapper } from '../../common/MetaModule';
+import MetaModule from '../../common/MetaModule';
+import { moduleWrapper } from '../../common/util';
 
 class GXPriceFeedModule extends MetaModule {
-  async setup(options, imports) {
-    imports['frontend-registry'].registerDependency(this);
-    return super.setup(options, imports);
+  async setup(options) {
+    this.imports['frontend-registry'].registerDependency(this);
   }
 
   async fetchCoins() {

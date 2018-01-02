@@ -7,12 +7,12 @@ function getAllSubPaths(parentDir) {
     .map(subDirectory => path.join(parentDir, subDirectory));
 }
 
-const corePaths = getAllSubPaths(path.join(__dirname, 'core'));
+const corePath = path.join(__dirname, 'core');
 
 const basePlugins = getAllSubPaths(path.join(__dirname, 'plugins'));
 
 const extraPlugins = getAllSubPaths(path.join(process.cwd(), 'plugins'));
 
-const loadPaths = [...corePaths, ...basePlugins, ...extraPlugins];
+const loadPaths = [corePath, ...basePlugins, ...extraPlugins];
 
 module.exports = loadPaths;

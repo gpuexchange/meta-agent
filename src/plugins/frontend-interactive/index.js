@@ -1,14 +1,15 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import url from 'url';
-import { debug } from 'console';
+import { error as debug } from 'console';
 import isElectron from 'is-electron';
 
-import { MetaModule, moduleWrapper } from '../../common/MetaModule';
+import MetaModule from '../../common/MetaModule';
+import { moduleWrapper } from '../../common/util';
 
 class InteractiveFrontendModule extends MetaModule {
-  async setup(options, imports) {
-    const registry = imports['frontend-registry'];
+  async setup(options) {
+    const registry = this.imports['frontend-registry'];
     this.store = registry.getStore();
 
     registry.registerDependency(this);
