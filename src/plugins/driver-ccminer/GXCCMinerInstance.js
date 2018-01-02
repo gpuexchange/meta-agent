@@ -2,7 +2,7 @@ import StateMachine from 'javascript-state-machine';
 import { isEqual, isEmpty } from 'lodash';
 import { execFile } from 'child_process';
 import { join as pathJoin } from 'path';
-import { debug } from 'console';
+import { error as debug } from 'console';
 
 export default class GXCCMinerInstance {
   constructor() {
