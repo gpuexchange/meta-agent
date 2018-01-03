@@ -18,6 +18,17 @@ npm install
 npm start
 ```
 
+## Miner Binaries*
+
+This software is a meta-miner, which controls actual mining software(s). The mining binaries need to be placed under the `miners` directory.
+
+For example, the built-in `ccminer-driver` module will look for a binary at the location:
+
+`<current directory>/miners/ccminer/ccminer-x64.exe`
+
+on Windows x64.
+
+
 ## Developer's Guide
 
 See [Design Principles](doc/Design.md).
