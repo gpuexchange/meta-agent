@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import * as Table from 'reactabular-table';
 import * as edit from 'react-edit';
-
 import { v4 as uuidV4 } from 'uuid';
-
 import objectPath from 'object-path';
-
 import { Segment, Button } from 'semantic-ui-react';
+
+import algorithms from '../../../../common/shared/algorithms.json';
 
 export default class PoolsTab extends Component {
   constructor(props) {
@@ -38,12 +36,33 @@ export default class PoolsTab extends Component {
         this.context.store.dispatch({
           type: 'SET',
           path: `config.pools.${poolIndex}.${property}`,
-          value,
+          value: property === 'feePercentage' ? parseFloat(value) : value,
         });
       },
     });
 
+    const processedAlgorithms = Object.keys(algorithms)
+      .map(value => ({ value, name: algorithms[value] }));
+
     const columns = [
+      {
+        property: 'algorithm',
+        header: {
+          label: 'Algorithm',
+        },
+        cell: {
+          formatters: [
+            name => name && <span>{algorithms[name]}</span>,
+          ],
+          transforms: [
+            (value, extra) => editable(edit.dropdown({
+              options: processedAlgorithms,
+            }))(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
+        },
+      },
       {
         property: 'url',
         header: {
@@ -84,13 +103,26 @@ export default class PoolsTab extends Component {
         },
       },
       {
+        property: 'feePercentage',
+        header: {
+          label: 'Fee (%)',
+        },
+        cell: {
+          transforms: [
+            (value, extra) => editable(edit.input())(value, extra, {
+              className: extra.rowData.edited && 'edited',
+            }),
+          ],
+        },
+      },
+      {
         property: 'enabled',
         header: {
           label: 'Enabled',
         },
         cell: {
           formatters: [
-            active => active && <span>&#10003;</span>,
+            active => <span>{active ? 'Yes' : 'No'}</span>,
           ],
           transforms: [
             (value, extra) => editable(edit.boolean())(value, extra, {
@@ -98,7 +130,8 @@ export default class PoolsTab extends Component {
             }),
           ],
         },
-      }, {
+      },
+      {
         header: {
           laber: 'Delete',
         },
@@ -147,9 +180,10 @@ export default class PoolsTab extends Component {
         path: 'config.pools',
         value: {
           uuid: uuidV4(),
-          url: '<enter url>',
-          username: '<enter username>',
-          password: '<enter password>',
+          url: 'stratum+tcp://replace-this.host:4142',
+          username: 'ENTER_USERNAME',
+          password: 'ENTER_PASSWORD',
+          feePercentage: 0,
           enabled: false,
         },
       });
