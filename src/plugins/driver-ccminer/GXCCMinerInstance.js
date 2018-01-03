@@ -5,7 +5,7 @@ import { join as pathJoin } from 'path';
 import { error as debug } from 'console';
 
 export default class GXCCMinerInstance {
-  constructor() {
+  constructor({ onStatusChange }) {
     this.stateMachine = new StateMachine({
       init: 'NEW',
       transitions: [
@@ -25,6 +25,7 @@ export default class GXCCMinerInstance {
       },
       methods: {
         killAndWait(process) {
+          onStatusChange('TERMINATING');
           debug(`Killing process ${process.pid}`);
           return new Promise((resolve) => {
             process.on('exit', (code) => {
@@ -84,17 +85,21 @@ export default class GXCCMinerInstance {
           }
         },
         onStall() {
+          onStatusChange('STALLED');
           debug('Miner is stalled');
         },
         onReady() {
+          onStatusChange('READY/RUNNING');
           debug('Miner is ready/running');
           this.currentMiningParams = this.expectedMiningParams;
         },
         onFail() {
+          onStatusChange('FAILED');
           debug('Miner failed to start');
           this.currentMiningParams = {};
         },
         onReset() {
+          onStatusChange('RESETTING');
           debug('Resetting');
           this.errorCount = 0;
           this.currentMiningParams = {};

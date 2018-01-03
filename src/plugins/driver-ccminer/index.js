@@ -19,10 +19,40 @@ class CCMinerDriver extends MetaModule {
   }
 
   launch() {
-    const minerInstance = new GXCCMinerInstance();
     const store = this.imports['driver-registry'].getStore();
+    const onStatusChange = (status) => {
+      store.set('session.miners.status.ccminer_single', status);
+    };
+    const minerInstance = new GXCCMinerInstance({ onStatusChange });
     store.subscribe(() => {
-      minerInstance.setMiningParams(store.get('config.miners.ccminer', {}));
+      // Find the best coin/pool combination that this miner can mine
+      // Get all pools that this miner supports
+      const coinProfitability = store.get('session.coinProfitability', {});
+      const goodPools = store.get('config.pools', [])
+        // Supported pools
+        .filter(({ coin, algorithm, enabled }) => (
+          // The pool is active
+          enabled &&
+            // we can mine this algorithm
+            (CCMinerDriver.getSupportedAlgorithms().indexOf(algorithm) > -1)
+            // and at least earn some money
+            && coinProfitability[coin] > 0
+        )).sort((a, b) => {
+          const profitabilityA = coinProfitability[a.coin];
+          const profitabilityB = coinProfitability[b.coin];
+          if (profitabilityA === profitabilityB) {
+            return 0;
+          } else if (profitabilityA > profitabilityB) {
+            return 1;
+          }
+          return -1;
+        });
+
+      if (goodPools.length > 0) {
+        // Start mining with the best pool
+        minerInstance.setMiningParams(goodPools[0]);
+      }
+      // minerInstance.setMiningParams(store.get('config.miners.ccminer', {}));
     });
   }
 }
