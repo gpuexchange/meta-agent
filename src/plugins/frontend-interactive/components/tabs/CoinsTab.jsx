@@ -6,7 +6,7 @@ import * as Table from 'reactabular-table';
 import { Divider } from 'semantic-ui-react';
 
 import algorithmNames from '../../data/algorithms.json';
-import hardwareHashRates from '../../data/hardware.json';
+import hardwareHashRates from '../../data/hardware';
 import PreviewSettingForm from './coins/PreviewSettingForm';
 
 export default class CoinsTab extends Component {
@@ -95,7 +95,7 @@ export default class CoinsTab extends Component {
       const algorithmCode = CoinsTab.getAlgorithmCode(coinData.algorithm);
       const hardwareHashRate = objectPath.get(
         hardwareHashRates,
-        `${[hardware, algorithmCode].join('.')}_hr`,
+        [hardware, algorithmCode, 'hashRate'].join('.'),
         0,
       );
 
@@ -110,7 +110,7 @@ export default class CoinsTab extends Component {
           dailyFiatEarning: parseFloat(dailyFiatEarning.toPrecision(2)),
         },
       );
-    });
+    }).sort((a, b) => b.dailyBtcEarning - a.dailyBtcEarning);
 
     return (
       <div>

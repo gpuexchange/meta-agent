@@ -16,28 +16,31 @@ class GXPriceFeedModule extends MetaModule {
 
       const { coins } = (await getJsonPromisified('https://whattomine.com/coins.json'));
 
-      const processedCoins = Object.keys(coins).map((coinName) => {
-        const coinData = coins[coinName];
+      const processedCoins = Object.keys(coins)
+        .filter(coinName => coins[coinName].tag !== 'NICEHASH')
+        .map((coinName) => {
+          const coinData = coins[coinName];
 
-        const earningPerHash = coinData.block_reward /
+          const earningPerHash = coinData.block_reward /
             parseFloat(coinData.block_time) / coinData.nethash;
 
           // Earning in a base currency, such as BTC
-        const convertedEarningPerHash = earningPerHash *
+          const convertedEarningPerHash = earningPerHash *
             coinData.exchange_rate;
-        const baseCurrency = coinData.exchange_rate_curr;
+          const baseCurrency = coinData.exchange_rate_curr;
 
-        const { algorithm, tag } = coinData;
+          const { algorithm, tag } = coinData;
 
-        return Object.assign({
-          coinName,
-          tag,
-          algorithm,
-          earningPerHash,
-          convertedEarningPerHash,
-          exchangeCurrency: baseCurrency,
-        }, coinData);
-      });
+          return Object.assign({
+            coinName,
+            tag,
+            algorithm,
+            earningPerHash,
+            convertedEarningPerHash,
+            exchangeCurrency: baseCurrency,
+          }, coinData);
+        });
+
       store.set('session.gpu_exchange.coinData', processedCoins);
       store.set('session.gpu_exchange.rawCoins', coins);
 
