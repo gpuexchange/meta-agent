@@ -1,6 +1,7 @@
 {
   "apiKey": "",
   "apiPrefix": "https://console-staging.gpu.exchange",
+  "hardware": "1080ti",
   "miners": {
     "ccminer": true
   }

@@ -1,0 +1,15 @@
+{
+  "Blake (2b)": "bk2b",
+  "X11Gost": "x11g",
+  "Groestl": "gro",
+  "CryptoNight": "cn",
+  "NeoScrypt": "ns",
+  "Lyra2REv2": "lrev2",
+  "<NOT IN USE>": "bkv",
+  "Blake (14r)": "bk14",
+  "Equihash": "eq",
+  "Ethash": "eth",
+  "LBRY": "lbry",
+  "Pascal": "pas",
+  "Skunkhash": "skh"
+}

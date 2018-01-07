@@ -32,36 +32,33 @@ class CCMinerDriver extends MetaModule {
     store.subscribe(() => {
       // Find the best coin/pool combination that this miner can mine
       // Get all pools that this miner supports
-      const coinData = store.get('session.coinData', []);
-      const hashEarnings = {};
-      coinData.map((coin) => {
-        hashEarnings[coin.coinName] = coin.convertedEarningPerHash;
-        return null;
-      });
+      const bestCoins = store.get('session.bestCoins', []);
+      const coinPriorities = {};
+      for (let i = 0; i < bestCoins.length; i += 1) {
+        // First in list => higher priority / more important
+        coinPriorities[bestCoins[i].coinName] = bestCoins.length - i;
+      }
+
+      // this.printDebug(`Coin priorities ${JSON.stringify(coinPriorities)}`);
 
       const goodPools = store.get('config.pools', [])
         // Supported pools
-        .filter(({ coin, enabled }) => (
+        .filter(({ enabled }) => (
           // The pool is active
           enabled
-            // TODO: we can mine this algorithm
-            // *&& (CCMinerDriver.getSupportedAlgorithms().indexOf(algorithm) > -1)
-            // and at least earn some money
-            && hashEarnings[coin]
-        ));
-
-      /* .sort((a, b) => {
-          const profitabilityA = coinData[a.coin].convertedEarningPerHash;
-          const profitabilityB = coinData[b.coin].convertedEarningPerHash;
-          if (profitabilityA === profitabilityB) {
-            return 0;
-          } else if (profitabilityA > profitabilityB) {
-            return 1;
+          // TODO: we can mine this algorithm
+          // *&& (CCMinerDriver.getSupportedAlgorithms().indexOf(algorithm) > -1)
+        )).sort((a, b) => {
+          if (coinPriorities[a.coin] === coinPriorities[b.coin]) {
+            return 0; // Doesn't matter
           }
-          return -1;
-        }); */
 
-      console.log('Good Pools', goodPools);
+          if (coinPriorities[a.coin] > coinPriorities[b.coin]) {
+            return -1; // A comes first
+          }
+
+          return 1;
+        });
 
       if (goodPools.length > 0) {
         // Start mining with the best pool

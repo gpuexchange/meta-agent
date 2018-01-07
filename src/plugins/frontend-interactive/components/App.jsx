@@ -16,7 +16,6 @@ export default class App extends Component {
       Miners: <MinersTab />,
       Pools: <PoolsTab store={store} />,
       Coins: <CoinsTab />,
-      Algorithms: <AlgorithmsTab />,
       Debug: <DebugTab />,
     };
 

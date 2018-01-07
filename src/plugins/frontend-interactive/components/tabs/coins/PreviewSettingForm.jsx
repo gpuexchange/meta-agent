@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Select, Input, Form } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import hardwareHashRates from '../../../data/hardware.json';
+import hardwareHashRates from '../../../../../common/shared/hardware.json';
 
 export default class PreviewSettingForm extends PureComponent {
   render() {

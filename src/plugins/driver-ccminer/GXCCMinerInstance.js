@@ -16,12 +16,13 @@ export default class GXCCMinerInstance {
         { name: 'stall', from: 'ERROR', to: 'STALLED' },
         { name: 'reset', from: 'ACTIVE', to: 'NEW' },
         { name: 'reset', from: 'STALLED', to: 'NEW' },
+        { name: 'reset', from: 'NEW', to: 'NEW' },
       ],
       data: {
         errorCount: 0,
         childProcess: null,
-        currentMiningParams: {},
-        expectedMiningParams: {},
+        currentMiningParams: false,
+        expectedMiningParams: false,
       },
       methods: {
         killAndWait(process) {

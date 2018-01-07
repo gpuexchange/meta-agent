@@ -5,21 +5,13 @@ import objectPath from 'object-path';
 import * as Table from 'reactabular-table';
 import { Divider } from 'semantic-ui-react';
 
-import algorithmNames from '../../data/algorithms.json';
-import hardwareHashRates from '../../data/hardware';
+import algorithmCodes from '../../../../common/shared/algorithmCodes.json';
+import hardwareHashRates from '../../../../common/shared/hardware';
 import PreviewSettingForm from './coins/PreviewSettingForm';
 
 export default class CoinsTab extends Component {
   static getAlgorithmCode(algorithmName) {
-    if (!this.algorithmNameToCode) {
-      this.algorithmNameToCode = {};
-      Object.keys(algorithmNames).forEach((code) => {
-        this.algorithmNameToCode[algorithmNames[code]] = code;
-      });
-    }
-    return typeof this.algorithmNameToCode[algorithmName] === 'string'
-      ? this.algorithmNameToCode[algorithmName]
-      : null;
+    return objectPath.get(algorithmCodes, algorithmName, null);
   }
 
   render() {

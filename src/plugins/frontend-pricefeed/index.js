@@ -1,8 +1,11 @@
 import getJson from 'get-json';
 import { promisify } from 'bluebird';
+import objectPath from 'object-path';
 
 import MetaModule from '../../common/MetaModule';
 import { moduleWrapper } from '../../common/util';
+import allHardwareSpecs from '../../common/shared/hardware';
+import algorithmCodes from '../../common/shared/algorithmCodes.json';
 
 class GXPriceFeedModule extends MetaModule {
   async setup(options) {
@@ -24,6 +27,46 @@ class GXPriceFeedModule extends MetaModule {
       const coins = (await getJsonPromisified(`${apiPrefix}/api/strategies/current/coins?api_token=${apiToken}`));
 
       store.set('session.coinData', coins);
+
+      // START STRATEGY BLOCK
+      // TODO: Move this block to strategy service
+
+      // TODO: Retrieve this from GraphQL API
+      const currentHardware = store.get('config.hardware');
+
+      if (!currentHardware) {
+        return;
+      }
+
+      const bestCoins = coins
+        .map((coinObject) => {
+          const { algorithm, convertedEarningPerHash } = coinObject;
+          const algorithmCode = objectPath.get(algorithmCodes, algorithm);
+          const hashRate = objectPath.get(
+            allHardwareSpecs,
+            [currentHardware, algorithmCode, 'hashRate'].join('.'),
+            0,
+          );
+
+          const estimatedBtcEarningRate = hashRate * convertedEarningPerHash;
+
+          return Object.assign({}, coinObject, { hashRate, estimatedBtcEarningRate });
+        })
+        .filter(coin => coin.estimatedBtcEarningRate > 0)
+        .sort((a, b) => {
+          const earningRateA = a.estimatedBtcEarningRate;
+          const earningRateB = b.estimatedBtcEarningRate;
+          if (earningRateA === earningRateB) {
+            return 0;
+          } else if (earningRateA > earningRateB) {
+            return 1;
+          }
+          return -1;
+        });
+
+      store.set('session.bestCoins', bestCoins);
+
+      // END STRATEGY BLOCK
 
       this.printDebug('Updated coin data via WTM API');
     } catch (err) {
