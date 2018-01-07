@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import JSONTree from 'react-json-tree';
 import { Button, Header, Segment, Divider } from 'semantic-ui-react';
-import { ScrollBox } from 'react-scroll-box';
 
 export default class DebugTab extends Component {
   render () {

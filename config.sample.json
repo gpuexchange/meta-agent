@@ -1,0 +1,7 @@
+{
+  "apiKey": "",
+  "apiPrefix": "https://console-staging.gpu.exchange",
+  "miners": {
+    "ccminer": true
+  }
+}

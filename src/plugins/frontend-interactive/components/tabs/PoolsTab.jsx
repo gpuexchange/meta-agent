@@ -41,10 +41,44 @@ export default class PoolsTab extends Component {
       },
     });
 
+
     const processedAlgorithms = Object.keys(algorithms)
       .map(value => ({ value, name: algorithms[value] }));
 
     const columns = [
+      {
+        property: 'coin',
+        header: {
+          label: 'Coin',
+        },
+        cell: {
+          formatters: [
+            name => (name && <span>{name}</span>) || <span>???</span>,
+          ],
+          transforms: [
+            (value, extra) => {
+              let coinFound = false;
+              const processedCoins = objectPath
+                .get(this.context.store.getState(), 'session.coinData', [])
+                .map((coin) => {
+                  if (coin.coinName === value) {
+                    coinFound = true;
+                  }
+                  return { name: coin.coinName, value: coin.coinValue };
+                });
+
+              if (!coinFound) {
+                processedCoins.push({ name: value ? (`Obsoleted coin ${value}`) : 'Please select', value });
+              }
+              return editable(edit.dropdown({
+                options: processedCoins,
+              }))(value, extra, {
+                className: extra.rowData.edited && 'edited',
+              });
+            },
+          ],
+        },
+      },
       {
         property: 'algorithm',
         header: {

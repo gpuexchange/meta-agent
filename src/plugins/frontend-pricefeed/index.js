@@ -12,37 +12,18 @@ class GXPriceFeedModule extends MetaModule {
   async fetchCoins() {
     try {
       const store = this.imports['frontend-registry'].getStore();
+      // Coin fetching requires API key
+      const apiToken = store.get('config.apiKey', false);
+      if (!apiToken) {
+        return;
+      }
+
       const getJsonPromisified = promisify(getJson);
 
-      const { coins } = (await getJsonPromisified('https://whattomine.com/coins.json'));
+      const apiPrefix = store.get('config.apiPrefix', 'https://console.gpu.exchange');
+      const coins = (await getJsonPromisified(`${apiPrefix}/api/strategies/current/coins?api_token=${apiToken}`));
 
-      const processedCoins = Object.keys(coins)
-        .filter(coinName => coins[coinName].tag !== 'NICEHASH')
-        .map((coinName) => {
-          const coinData = coins[coinName];
-
-          const earningPerHash = coinData.block_reward /
-            parseFloat(coinData.block_time) / coinData.nethash;
-
-          // Earning in a base currency, such as BTC
-          const convertedEarningPerHash = earningPerHash *
-            coinData.exchange_rate;
-          const baseCurrency = coinData.exchange_rate_curr;
-
-          const { algorithm, tag } = coinData;
-
-          return Object.assign({
-            coinName,
-            tag,
-            algorithm,
-            earningPerHash,
-            convertedEarningPerHash,
-            exchangeCurrency: baseCurrency,
-          }, coinData);
-        });
-
-      store.set('session.gpu_exchange.coinData', processedCoins);
-      store.set('session.gpu_exchange.rawCoins', coins);
+      store.set('session.coinData', coins);
 
       this.printDebug('Updated coin data via WTM API');
     } catch (err) {
@@ -69,9 +50,9 @@ class GXPriceFeedModule extends MetaModule {
   }
 
   async launch() {
-    this.printDebug('Loading coin data from WTM every minute');
+    this.printDebug('Loading coin data from GX API every 15 seconds');
 
-    setInterval(() => this.fetchCoins(), 60000);
+    setInterval(() => this.fetchCoins(), 15000);
 
     // Initial fetches
     await this.fetchCoins();

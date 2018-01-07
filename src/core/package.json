@@ -5,6 +5,7 @@
   "private": true,
   "plugin": {
     "provides": [
+      "store",
       "strategy-registry",
       "frontend-registry",
       "driver-registry"

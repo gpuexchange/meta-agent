@@ -2,37 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import objectPath from 'object-path';
-import { Button, Card, Image } from 'semantic-ui-react';
-
-class MinerStatus extends Component {
-  render() {
-    const miner = this.props.miner;
-    return (<Card color="green" key={miner.id}>
-      <Card.Content>
-        <Image
-          floated="right"
-          size="mini"
-          src="./assets/pick.svg"
-        />
-        <Card.Header>
-          MINER_TYPE
-        </Card.Header>
-        <Card.Meta>
-          Running
-        </Card.Meta>
-        <Card.Description>
-          <strong>Last update</strong>: 1 seconds ago
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className="ui two buttons">
-          <Button basic color="green">Start</Button>
-          <Button basic color="red">Stop</Button>
-        </div>
-      </Card.Content>
-    </Card>);
-  }
-}
+import JSONTree from 'react-json-tree';
 
 export default class MinersTab extends Component {
   getMiners() {
@@ -43,9 +13,15 @@ export default class MinersTab extends Component {
   }
 
   render() {
-    return (<Card.Group>
-      {this.getMiners().map(miner => <MinerStatus miner={miner} />)}
-    </Card.Group>);
+    const minerStatuses = objectPath.get(
+      this.context.store.getState(),
+      'session.miners.status', {},
+    );
+    return (
+      <div>
+        <JSONTree data={minerStatuses} />
+      </div>
+    );
   }
 }
 

@@ -15,6 +15,7 @@ class MetaCoreModule extends MetaModule {
     const strategyRegistry = new StrategyRegistryService(store);
 
     return {
+      store,
       'driver-registry': driverRegistry,
       'frontend-registry': frontendRegistry,
       'strategy-registry': strategyRegistry,

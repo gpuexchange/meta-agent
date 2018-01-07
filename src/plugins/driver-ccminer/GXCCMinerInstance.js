@@ -60,8 +60,11 @@ export default class GXCCMinerInstance {
               // Spawn the process here,
               const minerPath = pathJoin(process.cwd(), 'miners/ccminer/ccminer-x64.exe');
               debug(`Miner path is ${minerPath}`);
+              const {
+                url, username, password, algorithm,
+              } = miningParams;
               this.childProcess = execFile(minerPath, [
-                '-o', 'stratum+tcp://zec-apac.suprnova.cc:4142', '-u', 'thoaionline.hetzner', '-p', 'hetzner', '-a', 'equihash',
+                '-o', url, '-u', username, '-p', password, '-a', algorithm,
               ]);
               this.childProcess.on('data', debug);
               if (this.childProcess.pid) {

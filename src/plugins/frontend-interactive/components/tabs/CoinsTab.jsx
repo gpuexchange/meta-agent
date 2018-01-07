@@ -90,7 +90,7 @@ export default class CoinsTab extends Component {
 
     const rows = objectPath.get(
       this.context.store.getState(),
-      'session.gpu_exchange.coinData', [],
+      'session.coinData', [],
     ).map((coinData) => {
       const algorithmCode = CoinsTab.getAlgorithmCode(coinData.algorithm);
       const hardwareHashRate = objectPath.get(

@@ -13,6 +13,8 @@ architect.createApp(config, (err, app) => {
   }
 
   debug('Good news! All services have been loaded.');
+  debug('Loading config from config.json');
+  app.services.store.dispatch({ type: 'LOAD' });
   app.services['frontend-registry'].launch();
   app.services['driver-registry'].launch();
 });
