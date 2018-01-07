@@ -14,9 +14,9 @@ export default class GXCCMinerInstance {
         { name: 'fail', from: 'PENDING', to: 'ERROR' },
         { name: 'fail', from: 'ACTIVE', to: 'ERROR' },
         { name: 'stall', from: 'ERROR', to: 'STALLED' },
-        { name: 'reset', from: 'ACTIVE', to: 'NEW' },
+        { name: 'reset', from: 'ACTIVE', to: 'KILLING' },
+        { name: 'kill', from: 'KILLING', to: 'NEW' },
         { name: 'reset', from: 'STALLED', to: 'NEW' },
-        { name: 'reset', from: 'NEW', to: 'NEW' },
       ],
       data: {
         errorCount: 0,
@@ -37,17 +37,19 @@ export default class GXCCMinerInstance {
           });
         },
         async setMiningParams(miningParams) {
-          debug(`Setting mining params to ${JSON.stringify(this.expectedMiningParams)} from ${JSON.stringify(this.currentMiningParams)}`);
           // `this` in this context refers to the state machine
           this.expectedMiningParams = miningParams;
           if (!isEqual(this.expectedMiningParams, this.currentMiningParams)) {
+            debug(`Setting mining params to ${JSON.stringify(this.expectedMiningParams)} from ${JSON.stringify(this.currentMiningParams)}`);
             debug('Mining params require adjustments.');
             if (this.can('reset')) {
               debug('Finishing previous mining cycle');
-              if (this.childProcess) {
+              const { childProcess } = this;
+              if (childProcess) {
                 debug('Killing previous process');
-                await this.killAndWait(this.childProcess);
                 this.reset();
+                await this.killAndWait(childProcess);
+                this.kill();
               }
             } else {
               debug(`Cannot reset because current state is ${this.state}`);
@@ -76,8 +78,6 @@ export default class GXCCMinerInstance {
                 this.recordError();
               }
             }
-          } else {
-            debug('Mining parameters were unchanged. Doing nothing.');
           }
         },
         recordError() {
