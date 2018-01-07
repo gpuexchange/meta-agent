@@ -62,11 +62,11 @@ Folders marked with `*` are a good starting point for new developers.
 - [x] Retrieve coin data via 3rd party APIs
 - [x] Basic debugging UI (CLI)
 - [x] GUI with basic navigation
-- [ ] Coin list (partially done)
-- [ ] Local mining strategy
-- [ ] Meta-miner architect
-- [ ] CC Miner driver
-- [ ] Status API (internal)
+- [x] Coin list
+- [x] Local mining strategy
+- [x] Meta-miner architect
+- [x] CC Miner driver
+- [x] Status API (internal)
 - [ ] Reporting frontend
 - [ ] Unit tests
 - [ ] Beta/Production Build Pipeline
