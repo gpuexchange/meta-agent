@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Tab } from 'semantic-ui-react';
 import DebugTab from './tabs/DebugTab';
-import AlgorithmsTab from './tabs/AlgorithmsTab';
 import MinersTab from './tabs/MinersTab';
 import CoinsTab from './tabs/CoinsTab';
 import PoolsTab from './tabs/PoolsTab';
