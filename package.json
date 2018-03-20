@@ -1,11 +1,11 @@
 {
   "name": "@gpuexchange/meta-agent",
   "productName": "GX Meta Agent",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "META Enhanced Trading Agent",
   "main": "src/index.js",
+  "bin": "src/index.js",
   "scripts": {
-    "preinstall": "node bin/preinstall.js",
     "lint": "eslint src/ --fix",
     "test": "jest src/ --no-cache",
     "build": "echo Build script not ready",
@@ -42,22 +42,6 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
-    "@blueprintjs/core": "^1.35.0",
-    "@gpuechange/meta-agent-core": "file:src/core",
-    "@gpuexchange/meta-agent-core": "file:src/core",
-    "@gpuexchange/meta-agent-driver-ccminer": "file:src/plugins/driver-ccminer",
-    "@gpuexchange/meta-agent-frontend-interactive": "file:src/plugins/frontend-interactive",
-    "@gpuexchange/meta-agent-frontend-pricefeed": "file:src/plugins/frontend-pricefeed",
-    "architect": "^0.1.13",
-    "babel-plugin-react-css-modules": "^3.3.2",
-    "babel-register": "^6.26.0",
-    "bluebird": "^3.5.1",
-    "electron": "^1.8.1",
-    "eslint-config-airbnb-flow": "^1.0.2",
-    "flow-bin": "^0.61.0",
-    "get-json": "^1.0.0",
-    "jest": "^22.0.4",
-    "lodash": "^4.17.4",
     "object-path": "^0.11.4"
   },
   "jest": {

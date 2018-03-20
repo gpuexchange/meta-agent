@@ -1,0 +1,16 @@
+{
+  "name": "@gpuexchange/meta-agent-strategy-local",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+  },
+  "plugin": {
+    "consumes": [
+      "strategy-registry"
+    ],
+    "provides": [
+      "strategy-local"
+    ]
+  }
+}
