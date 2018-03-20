@@ -4,13 +4,14 @@
   "version": "0.2.0",
   "description": "META Enhanced Trading Agent",
   "main": "src/index.js",
-  "bin": "src/index.js",
+  "bin": "build/index.bundle.js",
   "scripts": {
     "lint": "eslint src/ --fix",
     "test": "jest src/ --no-cache",
-    "build": "echo Build script not ready",
-    "start": "electron src/bootstrap.js",
-    "start-cli": "node src/bootstrap.js"
+    "build": "npm run build-core && npm run build-frontend",
+    "build-core": "ENV=server babel src/core/index.js -o build/core.bundle.js",
+    "build-frontend": "ENV=client babel src/frontend/index.js -o build/frontend.bundle.js",
+    "package": "npm run build && pkg package.json"
   },
   "repository": {
     "type": "git",
