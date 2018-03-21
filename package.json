@@ -4,14 +4,14 @@
   "version": "0.2.0",
   "description": "META Enhanced Trading Agent",
   "main": "src/index.js",
-  "bin": "build/index.bundle.js",
+  "bin": "build/core.bundle.js",
   "scripts": {
     "lint": "eslint src/ --fix",
     "test": "jest src/ --no-cache",
     "build": "npm run build-core && npm run build-frontend",
-    "build-core": "ENV=server babel src/core/index.js -o build/core.bundle.js",
-    "build-frontend": "ENV=client babel src/frontend/index.js -o build/frontend.bundle.js",
-    "package": "npm run build && pkg package.json"
+    "build-core": "cross-env ENV=server babel src/core/index.js -o build/core.bundle.js",
+    "build-frontend": "cross-env ENV=client babel src/frontend/index.js -o build/frontend.bundle.js",
+    "package": "npm run build && pkg package.json --out-path bin"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
+    "cross-env": "^5.1.4",
     "electron-packager": "^10.1.0",
     "eslint": "^4.14.0",
     "eslint-config-airbnb": "^16.1.0",
@@ -43,6 +44,9 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
     "object-path": "^0.11.4"
   },
   "jest": {

@@ -1,9 +1,7 @@
 {
   "plugins": [
     "dynamic-import-node",
-    "transform-runtime",
     "transform-react-jsx",
-    "react-css-modules"
   ],
   "presets": [
     "flow",
