@@ -35,23 +35,24 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "cross-env": "^5.1.4",
-    "electron-packager": "^10.1.0",
-    "eslint": "^4.14.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
     "webpack": "^3.10.0"
   },
   "dependencies": {
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "serve-index": "^1.9.1"
   },
   "jest": {
     "modulePathIgnorePatterns": [
       "lib/"
+    ]
+  },
+  "pkg": {
+    "assets": [
+      "build/*.html",
+      "build/**/*"
     ]
   }
 }
