@@ -4,14 +4,15 @@
   "version": "0.2.0",
   "description": "META Enhanced Trading Agent",
   "main": "src/index.js",
-  "bin": "build/core.bundle.js",
+  "bin": "build/generated/core.js",
   "scripts": {
-    "lint": "eslint src/ --fix",
     "test": "jest src/ --no-cache",
-    "build": "npm run build-core && npm run build-frontend",
-    "build-core": "cross-env ENV=server babel src/core/index.js -o build/core.bundle.js",
-    "build-frontend": "cross-env ENV=client babel src/frontend/index.js -o build/frontend.bundle.js",
-    "package": "npm run build && pkg package.json --out-path bin"
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "core": "cross-env ENV=server babel src/core/index.js -o build/generated/core.js",
+    "package": "npm run core && npm run production && pkg package.json --out-path bin"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "cross-env": "^5.1.4",
+    "laravel-mix": "^2.1.11",
     "webpack": "^3.10.0"
   },
   "dependencies": {
@@ -51,7 +53,6 @@
   },
   "pkg": {
     "assets": [
-      "build/*.html",
       "build/**/*"
     ]
   }
