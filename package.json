@@ -6,12 +6,14 @@
   "main": "src/index.js",
   "bin": "build/generated/core.js",
   "scripts": {
+    "start": "node build/core.js",
     "test": "jest src/ --no-cache",
-    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "core": "cross-env ENV=server babel src/core/index.js -o build/generated/core.js",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix",
+    "dev": "cross-env NODE_ENV=development webpack",
+    "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
+    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules",
     "package": "npm run core && npm run production && pkg package.json --out-path bin"
   },
   "repository": {
@@ -35,17 +37,22 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
+    "babel-preset-minify": "^0.3.0",
     "cross-env": "^5.1.4",
-    "laravel-mix": "^2.1.11",
-    "webpack": "^3.10.0"
+    "eslint-config-standard": "^11.0.0",
+    "standard": "^11.0.1",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "apollo-server-express": "^1.3.4",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
     "object-path": "^0.11.4",
     "serve-index": "^1.9.1"
   },
+  "sideEffecs": false,
   "jest": {
     "modulePathIgnorePatterns": [
       "lib/"
