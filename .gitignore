@@ -72,6 +72,4 @@ typings/
 !/miners/random.sh
 
 # Generated apps
-/meta-agent-linux
-/meta-agent-macos
-/meta-agent-win.exe
+/bin
