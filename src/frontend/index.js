@@ -4,6 +4,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import './styles/main.less'
+
 // TODO: Investigate why JSX syntax is not loaded by Webpack
 
 ReactDOM.render(

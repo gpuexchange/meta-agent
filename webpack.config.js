@@ -17,7 +17,26 @@ let webConfig = {
     path: path.join(__dirname, 'build'),
     filename: 'frontend.js'
   },
-  target: 'web'
+  target: 'web',
+  module: {
+    rules: [
+      {
+        test: /\.less/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader'
+          }
+        ]
+      }
+    ]
+  }
+
 }
 
 module.exports = [coreConfig, webConfig]

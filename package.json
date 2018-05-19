@@ -3,18 +3,17 @@
   "productName": "GX Meta Agent",
   "version": "0.2.0",
   "description": "META Enhanced Trading Agent",
-  "main": "src/index.js",
-  "bin": "build/generated/core.js",
+  "bin": "build/core.js",
   "scripts": {
     "start": "cross-env ENV=debug node src/core/index.js",
     "test": "jest src/ --no-cache",
     "lint": "standard src/",
     "lint-fix": "standard src/ --fix",
-    "dev": "cross-env NODE_ENV=development webpack",
-    "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules",
-    "package": "npm run core && npm run production && pkg package.json --out-path bin"
+    "dev": "webpack --mode development",
+    "watch": "webpack --watch --progress --hide-modules --mode development",
+    "hot": "webpack-dev-server --inline --hot",
+    "production": "webpack --progress --hide-modules --mode production",
+    "package": "npm run production && pkg package.json --out-path bin"
   },
   "repository": {
     "type": "git",
@@ -37,11 +36,17 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
-    "jest": "^22.4.4",
-    "webpack": "^3.0",
     "babel-preset-minify": "^0.3.0",
     "cross-env": "^5.1.4",
+    "css-loader": "^0.28.11",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^22.4.4",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "sass-loader": "^7.0.1",
     "standard": "^11.0.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.8.3",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
@@ -53,7 +58,8 @@
     "object-path": "^0.11.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "serve-index": "^1.9.1"
+    "serve-index": "^1.9.1",
+    "webpack-cli": "^2.1.3"
   },
   "sideEffecs": false,
   "jest": {
@@ -62,8 +68,6 @@
     ]
   },
   "pkg": {
-    "assets": [
-      "build/**/*"
-    ]
+    "assets": "build/**/*"
   }
 }

@@ -10,23 +10,11 @@ const app = express()
 console.log(`DIRNAME IS ${__dirname}`)
 console.log(`FILENAME ${__filename}`)
 
-switch (process.env.ENV) {
-  case 'development':
-  case 'debug': {
-    let publicPath = pathJoin(__dirname, '/../../build')
-    console.log('Serving from ', publicPath)
-    app.use(express.static(publicPath))
-    app.use(serveIndex(publicPath))
-    break
-  }
-  default: {
-    let publicPath = __dirname
-    console.log('Serving from ', publicPath, 'ENV is ', process.env.ENV)
-    app.use(express.static(publicPath))
-    app.use(serveIndex(publicPath))
-  }
-}
+let usingPkg = process.pkg.entrypoint | false
 
+let publicPath = usingPkg ? __dirname : pathJoin(__dirname, '/../../build')
+app.use(express.static(publicPath))
+app.use(serveIndex(publicPath))
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema: coreSchema}))
 app.get('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))
 
