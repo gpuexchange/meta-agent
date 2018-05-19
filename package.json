@@ -6,10 +6,10 @@
   "main": "src/index.js",
   "bin": "build/generated/core.js",
   "scripts": {
-    "start": "node src/core/index.js",
+    "start": "cross-env ENV=debug node src/core/index.js",
     "test": "jest src/ --no-cache",
-    "lint": "eslint src/",
-    "lint-fix": "eslint src/ --fix",
+    "lint": "standard src/",
+    "lint-fix": "standard src/ --fix",
     "dev": "cross-env NODE_ENV=development webpack",
     "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
     "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
