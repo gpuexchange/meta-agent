@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "bin": "build/generated/core.js",
   "scripts": {
-    "start": "node build/core.js",
+    "start": "node src/core/index.js",
     "test": "jest src/ --no-cache",
     "lint": "eslint src/",
     "lint-fix": "eslint src/ --fix",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/gpuexchange/meta-agent.git"
+    "url": "https://github.com/gpuexchange/meta-agent.git"
   },
   "keywords": [
     "gpu",
@@ -49,6 +49,7 @@
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
+    "isomorphic-fetch": "^2.2.1",
     "object-path": "^0.11.4",
     "serve-index": "^1.9.1"
   },
