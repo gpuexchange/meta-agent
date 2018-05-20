@@ -1,5 +1,5 @@
 describe('application', () => {
-  xit('should listen on the port specified by process.env.PORT', () => {
+  it('should listen on the port specified by process.env.PORT', () => {
     /**
      * TODO:
      * - Spawn a new process without specifying the port
