@@ -47,7 +47,6 @@
     "jest": "^22.4.4",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "nyc": "^11.8.0",
     "sass-loader": "^7.0.1",
     "standard": "^11.0.1",
     "style-loader": "^0.21.0",
