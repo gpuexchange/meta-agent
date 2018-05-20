@@ -5,22 +5,24 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import { join as pathJoin } from 'path'
 import coreSchema from './schema'
 
-const app = express()
+module.exports.run = () => {
+  const app = express()
 
-let usingPkg = typeof process.pkg !== 'undefined' | false
-let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
-let devPath = pathJoin(process.argv[1], '/../')
-let publicPath = usingPkg ? pkgPath : devPath
+  let usingPkg = typeof process.pkg !== 'undefined' | false
+  let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
+  let devPath = pathJoin(process.argv[1], '/../')
+  let publicPath = usingPkg ? pkgPath : devPath
 
-console.info('Serving static assets from', publicPath)
+  app.use(express.static(publicPath))
+  app.use(serveIndex(publicPath))
+  app.use('/graphql', bodyParser.json(), graphqlExpress({schema: coreSchema}))
+  app.get('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))
 
-app.use(express.static(publicPath))
-app.use(serveIndex(publicPath))
-app.use('/graphql', bodyParser.json(), graphqlExpress({schema: coreSchema}))
-app.get('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))
+  const server = app.listen(process.env.PORT | 8000, () => {
+    const host = server.address().address
+    const port = server.address().port
+    console.info(`Server started successfully on http://${host}:${port}`)
+  })
 
-const server = app.listen(process.env.PORT | 8000, () => {
-  const host = server.address().address
-  const port = server.address().port
-  console.log(`Server started successfully on http://${host}:${port}`)
-})
+  return server
+}
