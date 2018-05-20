@@ -7,12 +7,13 @@ import coreSchema from './schema'
 
 const app = express()
 
-console.log(`DIRNAME IS ${__dirname}`)
-console.log(`FILENAME ${__filename}`)
+let usingPkg = typeof process.pkg !== 'undefined' | false
+let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
+let devPath = pathJoin(process.argv[1], '/../')
+let publicPath = usingPkg ? pkgPath : devPath
 
-let usingPkg = process.pkg.entrypoint | false
+console.info('Serving static assets from', publicPath)
 
-let publicPath = usingPkg ? __dirname : pathJoin(__dirname, '/../../build')
 app.use(express.static(publicPath))
 app.use(serveIndex(publicPath))
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema: coreSchema}))
