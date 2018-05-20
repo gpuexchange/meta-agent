@@ -13,7 +13,7 @@
     "dev": "webpack --mode development",
     "watch": "webpack --watch --progress --hide-modules --mode development",
     "hot": "webpack-dev-server --inline --hot",
-    "production": "webpack --progress --hide-modules --mode production",
+    "production": "webpack --hide-modules --mode production",
     "package": "npm run production && pkg package.json --out-path bin --targets node8"
   },
   "repository": {
