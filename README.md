@@ -1,5 +1,8 @@
 # META
 
+![Build Status](https://api.travis-ci.org/gpuexchange/meta-agent.svg?branch=v0.2)
+
+
 META (META Enhanced Trading Agent) is GPU Exchange's mining control agent. It plays the following roles:
 
 * It manages crypto currency miners and switch to the most profitable one, according to data retrieved from the GPU Exchange (GX) API.
