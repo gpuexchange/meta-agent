@@ -6,7 +6,7 @@
   "bin": "build/core.js",
   "scripts": {
     "start": "cross-env ENV=debug node src/core/index.js",
-    "test": "jest src/ --no-cache",
+    "test": "jest src/",
     "integration": "jest integrations/",
     "coverage": "jest src/ --coverage",
     "lint": "standard src/",
