@@ -2,7 +2,12 @@ import jest from 'jest-mock'
 import sleep from 'sleep-promise'
 import MPubSub from './MPubSub'
 
-describe('MPubSub', function () {
+describe('MPubSub', () => {
+  it('should not have any dependencies', () => {
+    let pubSub = new MPubSub()
+    expect(pubSub.getDependencies().length).toBe(0)
+  })
+
   it('should send data back to subscribers', async () => {
     let pubSub = new MPubSub()
 

@@ -24,5 +24,24 @@ describe('MRegistry', () => {
       expect(fakeServiceA.testMethod).toHaveBeenCalled()
       expect(fakeServiceB.testMethod).toHaveBeenCalled()
     })
+
+    it('should pass parameters along', async () => {
+      let fakeServiceA = {
+        testMethod: jest.fn().mockResolvedValue(1)
+      }
+
+      let registry = new MRegistry()
+      registry.add(fakeServiceA)
+
+      let callResults = await registry.batchCall('testMethod', 'hello', 'world')
+      expect(callResults[0]).toBe(1)
+      expect(fakeServiceA.testMethod).toHaveBeenCalled()
+      expect(fakeServiceA.testMethod).toHaveBeenCalledWith('hello', 'world')
+    })
+  })
+
+  it('should depend on MPubSub', () => {
+    let r = new MRegistry()
+    expect(r.getDependencies().indexOf('MPubSub')).toBeGreaterThan(-1)
   })
 })
