@@ -27,12 +27,4 @@ export default class MModule {
   }
 
   async launch () {}
-
-  _getName () {
-    return this.constructor.name
-  }
-
-  static _lcFirst (string) {
-    return string.charAt(0).toLowerCase() + string.substr(1)
-  }
 }
