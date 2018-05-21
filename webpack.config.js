@@ -1,5 +1,6 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let coreConfig = {
   entry: path.join(__dirname, 'src/core/index.js'),
@@ -35,8 +36,13 @@ let webConfig = {
         ]
       }
     ]
-  }
-
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      title: 'META Mining Agent'
+    })
+  ]
 }
 
 module.exports = [coreConfig, webConfig]
