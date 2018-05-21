@@ -4,4 +4,8 @@ node_js:
 
 script:
 - npm run lint
-- npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+- echo "Running unit tests"
+- npm run coverage
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+- echo "Running integration tests"
+- npm run integration

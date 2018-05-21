@@ -1,4 +1,4 @@
-import app from './app'
+import app from '../src/core/app'
 import fetch from 'isomorphic-fetch'
 
 describe('application', () => {
