@@ -1,7 +1,9 @@
 # META
 
-![Build Status](https://api.travis-ci.org/gpuexchange/meta-agent.svg?branch=v0.2)
+![Build Status](https://api.travis-ci.org/gpuexchange/meta-agent.svg?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/gpuexchange/meta-agent/badge.svg)](https://coveralls.io/github/gpuexchange/meta-agent)
 
+**The code in `develop` branch is currently extremely unstable. Please refrain from any non-development use.**
 
 META (META Enhanced Trading Agent) is GPU Exchange's mining control agent. It plays the following roles:
 
