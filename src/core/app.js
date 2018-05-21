@@ -1,28 +1,17 @@
-import express from 'express'
-import serveIndex from 'serve-index'
-import bodyParser from 'body-parser'
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
-import { join as pathJoin } from 'path'
-import coreSchema from './schema'
+import _ from 'lodash'
 
-module.exports.run = () => {
-  const app = express()
+import APIService from './api/APIService'
+import MLoader from './common/MLoader'
 
-  let usingPkg = typeof process.pkg !== 'undefined' | false
-  let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
-  let devPath = pathJoin(process.argv[1], '/../')
-  let publicPath = usingPkg ? pkgPath : devPath
+module.exports.run = async () => {
+  let modules = {
+    APIService: new APIService()
+  }
 
-  app.use(express.static(publicPath))
-  app.use(serveIndex(publicPath))
-  app.use('/graphql', bodyParser.json(), graphqlExpress({schema: coreSchema}))
-  app.get('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))
+  // Load and wait for all modules
+  let loadedModules = await MLoader.loadModules(modules)
+  await Promise.all(_.map(loadedModules, (val, key) => val.launch()))
 
-  const server = app.listen(process.env.PORT | 8000, () => {
-    const host = server.address().address
-    const port = server.address().port
-    console.info(`Server started successfully on http://${host}:${port}`)
-  })
-
+  let server = loadedModules.APIService.getServer()
   return server
 }

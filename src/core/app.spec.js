@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch'
 
 describe('application', () => {
   it('should listen on the port specified by process.env.PORT', async () => {
-    const defaultServer = app.run()
+    const defaultServer = await app.run()
 
     let response = await fetch('http://localhost:8000')
     expect(response.status).toBe(200)
@@ -11,7 +11,7 @@ describe('application', () => {
     defaultServer.close()
 
     process.env.PORT = '8001'
-    const customServer = app.run()
+    const customServer = await app.run()
 
     let customResponse = await fetch('http://localhost:8001')
     expect(customResponse.status).toBe(200)

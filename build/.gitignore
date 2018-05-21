@@ -1,4 +1,3 @@
 # Ignore built js bundles
 *
 !.gitignore
-!index.html
