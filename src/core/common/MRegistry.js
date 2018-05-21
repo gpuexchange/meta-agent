@@ -17,6 +17,6 @@ export default class MRegistry extends MModule {
   }
 
   async batchCall (method, ...args) {
-    return Promise.all(this.entries.map(entry => entry[method].apply(entry[method], args)))
+    return Promise.all(this.entries.map(entry => entry[method].apply(entry, args)))
   }
 }
