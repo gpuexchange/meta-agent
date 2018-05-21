@@ -13,6 +13,10 @@ export default class MModule {
     return []
   }
 
+  getOption (name) {
+    return this.options[name] || null
+  }
+
   /**
    * Prepare and export services
    * @param imports
