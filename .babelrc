@@ -3,13 +3,6 @@
     "dynamic-import-node",
     "transform-react-jsx"
   ],
-  "env": {
-    "test": {
-      "plugins": [
-        "istanbul"
-      ]
-    }
-  },
   "presets": [
     "flow",
     [
