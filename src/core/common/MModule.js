@@ -27,4 +27,8 @@ export default class MModule {
   }
 
   async launch () {}
+
+  log () {
+    console.info.apply(console, [`[${this.constructor.name}]`].concat(Object.values(arguments)))
+  }
 }

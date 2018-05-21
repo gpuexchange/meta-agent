@@ -8,6 +8,10 @@ export default class MRegistry extends MModule {
     this.entries = []
   }
 
+  getDependencies () {
+    return ['MPubSub']
+  }
+
   add (entry) {
     this.entries.push(entry)
   }
