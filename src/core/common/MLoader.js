@@ -3,13 +3,20 @@
 import { DepGraph } from 'dependency-graph'
 
 export default class MLoader {
-  static async loadModules (moduleSpec = {}) {
+  static async loadModules (modules) {
+    let moduleSpec = modules.reduce(
+      (accumulator, m) => Object.assign(accumulator, {[m.getName()]: m}), {})
+
     let graph = new DepGraph()
     let addNode = graph.addNode.bind(graph)
-    Object.keys(moduleSpec).map(addNode)
+
+    modules.map(m => m.getName()).map(addNode)
+
     Object.keys(moduleSpec).map(
-      name => moduleSpec[name].getDependencies()
-        .map(dependency => graph.addDependency(name, dependency))
+      name => moduleSpec[name].getDependencies().map(dependency => {
+        console.log(name, 'depends on', dependency)
+        graph.addDependency(name, dependency)
+      })
     )
 
     let ready = {}

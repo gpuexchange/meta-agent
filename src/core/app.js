@@ -9,17 +9,15 @@ import WTMStrategy from './strategies/wtm/WTMStrategy'
 import MPubSub from './common/MPubSub'
 
 export const run = async () => {
-  let modules = {
-    [APIService.prototype.constructor.name]: new APIService(),
-    [StrategyRegistry.prototype.constructor.name]: new StrategyRegistry(),
-    [MPubSub.prototype.constructor.name]: new MPubSub()
-  }
+  let modules = [
+    // Core modules
+    new APIService(null, 'APIService'),
+    new StrategyRegistry(null, 'StrategyRegistry'),
+    new MPubSub(null, 'MPubSub'),
 
-  let extraModules = [
+    // Optional modules
     new WTMStrategy()
   ]
-
-  _.each(extraModules, m => { modules[uuid()] = m })
 
   // Load and wait for all modules
   let loadedModules = await MLoader.loadModules(modules)
@@ -29,9 +27,9 @@ export const run = async () => {
   setInterval(() => {
     if (refreshing) return
     refreshing = true
-    loadedModules[StrategyRegistry.prototype.constructor.name].refresh().then(() => { refreshing = false })
+    loadedModules.StrategyRegistry.refresh().then(() => { refreshing = false })
   }, 5 * 1000)
 
-  let server = loadedModules[APIService.prototype.constructor.name].getServer()
+  let server = loadedModules.APIService.getServer()
   return server
 }

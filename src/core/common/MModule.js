@@ -1,8 +1,18 @@
 'use strict'
 
 export default class MModule {
-  constructor (options = {}) {
-    this.options = options
+  constructor (options = {}, name) {
+    if (typeof name !== 'string') {
+      name = this.constructor.name
+    }
+
+    this.name = name
+    this.options = options || {}
+  }
+
+  getName () {
+    this.log('Hello')
+    return this.name
   }
 
   /**
@@ -25,7 +35,7 @@ export default class MModule {
   async setup (imports = {}) {
     this.imports = imports
     let exports = {
-      [this.constructor.name]: this
+      [this.name]: this
     }
     return exports
   }
@@ -33,6 +43,7 @@ export default class MModule {
   async launch () {}
 
   log () {
-    console.info.apply(console, [`[${this.constructor.name}]`].concat(Object.values(arguments)))
+    console.info.apply(console,
+      [`[${this.name}]`].concat(Object.values(arguments)))
   }
 }

@@ -1,4 +1,4 @@
 require('babel-register')
 const app = require('./app')
 
-app.run()
+app.run().catch(console.log)
