@@ -20,4 +20,7 @@ describe('MLoader', () => {
     expect(mockModule.getName).toHaveBeenCalled()
     expect(mockModule.getDependencies).toHaveBeenCalled()
   })
+
+  it('should detect circular dependency', () => {})
+  it('should find appropriate loading order', () => {})
 })
