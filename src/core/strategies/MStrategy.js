@@ -7,11 +7,11 @@ import { CoinCodes } from '../common/constants'
 
 export default class MStrategy extends MModule {
   async setup (imports) {
-    imports[StrategyRegistry.name].add(this)
+    imports.StrategyRegistry.add(this)
   }
 
   getDependencies () {
-    return [StrategyRegistry.name]
+    return ['StrategyRegistry']
   }
 
   async getOptimalTarget (hashRates = {}) {
