@@ -3,7 +3,7 @@
 import { DepGraph } from 'dependency-graph'
 
 export default class MLoader {
-  static async loadModules (modules) {
+  async loadModules (modules) {
     let moduleSpec = modules.reduce(
       (accumulator, m) => Object.assign(accumulator, {[m.getName()]: m}), {})
 

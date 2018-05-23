@@ -20,7 +20,8 @@ export const run = async () => {
   ]
 
   // Load and wait for all modules
-  let loadedModules = await MLoader.loadModules(modules)
+  let loader = new MLoader()
+  let loadedModules = await loader.loadModules(modules)
   await Promise.all(_.map(loadedModules, (val, key) => val.launch()))
 
   let refreshing = false
