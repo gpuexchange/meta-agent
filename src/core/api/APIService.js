@@ -12,10 +12,10 @@ export default class APIService extends MModule {
   async launch () {
     const app = express()
 
-    let usingPkg = typeof process.pkg !== 'undefined' | false
-    let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
+    // let usingPkg = typeof process.pkg !== 'undefined' | false
+    // let pkgPath = usingPkg && pathJoin(process.pkg.entrypoint, '/../')
     let devPath = pathJoin(__dirname, '../../../build/')
-    let publicPath = usingPkg ? pkgPath : devPath
+    let publicPath = devPath
 
     console.info(`Serving from ${publicPath}`)
 

@@ -1,6 +1,7 @@
 'use strict'
 
 import MModule from './MModule'
+import MPubSub from './MPubSub'
 
 export default class MRegistry extends MModule {
   constructor (options) {
@@ -9,7 +10,7 @@ export default class MRegistry extends MModule {
   }
 
   getDependencies () {
-    return ['MPubSub']
+    return [MPubSub.name]
   }
 
   add (entry) {
