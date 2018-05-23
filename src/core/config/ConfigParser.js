@@ -1,15 +1,29 @@
 'use strict'
 
 export default class ConfigParser {
-  parseCliConfig (args) {
+
+  constructor () {
+    this.ready = false
+  }
+
+  loadCliConfig (args) {
     return this
   }
 
-  parseJsonConfig (jsonLocation) {
+  loadJsonConfig (filepath) {
     return this
   }
 
-  loadModules () {
+  prepare () {
+    this.ready = true
+    return this
+  }
+
+  getModules () {
+    if (!this.ready) {
+      throw new Error('Parser is not ready. Please call `prepare` method first.')
+    }
+
     return []
   }
 }
