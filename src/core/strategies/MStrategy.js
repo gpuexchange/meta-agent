@@ -14,7 +14,13 @@ export default class MStrategy extends MModule {
     return ['StrategyRegistry']
   }
 
+  /**
+   *
+   * @param hashRates A [Coin Code] => Hash/sec map of all available coins
+   * @return {Promise.<string>} The [Coin code] that is deemed to be most profitable, based on internal calculation. or `null` of nothing was found (i.e. it's too expensive to mine at all, due to, for example, electricity cost).
+   */
   async getOptimalTarget (hashRates = {}) {
-    return CoinCodes.ETH
+    let applicableCoinCodes = Object.keys(hashRates)
+    return applicableCoinCodes.length ? applicableCoinCodes[0] : null
   }
 }
